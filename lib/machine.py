@@ -7,9 +7,15 @@ class KaraokeMachine:
     def __init__(self):
         self.playlist = Playlist()
 
-    def load_song():
-        print("Loading next song.")
 
-    def exit_program():
-        print("Goodbye!")
-        exit()
+def add_song():
+    print("Adding song.")
+
+
+def load_song():
+    print("Loading next song.")
+
+
+def exit_program():
+    print("Goodbye!")
+    exit()

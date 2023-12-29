@@ -6,7 +6,4 @@ from models.song import Song
 
 class Playlist:
     def __init__(self):
-        self.songs = songs()
-
-    def songs(self):
-        return [song for song in Song.all if song.playlist is self]
+        pass

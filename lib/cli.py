@@ -1,28 +1,62 @@
 # lib/cli.py
 
-from KaraokeMachine import KaraokeMachine
+from machine import load_song, add_song, exit_program
+
+CYAN = "\033[96m"
+# CYAN_BOLD = "\033[96;1m"
+RESET = "\033[0m"
 
 
 def main():
-    machine = KaraokeMachine()
+    title_card_displayed = False
 
     while True:
+        print("*" * 50)
+
+        if not title_card_displayed:
+            display_title_card()
+            title_card_displayed = True
+
         menu()
         choice = input("> ")
-        if choice == "0":
-            machine.exit_program()
-        elif choice == "1":
-            machine.load_song()
+        if choice == "1":
+            load_song()
+        elif choice == "2":
+            add_song()
+        elif choice == "10":
+            exit_program()
         else:
             print("Invalid choice")
 
 
 def menu():
-    print("*" * 50)
-    print("Welcome to the Karaoke Machine! Please choose an option:")
-    print("0. Exit the program")
+    print("Please choose an option:")
     print("1. Load next song")
+    print("2. Add song")
+    print("10. Exit the program")
     print("*" * 50)
+
+
+def display_title_card():
+    print(
+        f"""
+██╗  ██╗ █████╗ ██████╗  █████╗  ██████╗ ██╗  ██╗███████╗
+██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██║ ██╔╝██╔════╝
+█████╔╝ ███████║██████╔╝███████║██║   ██║█████╔╝ █████╗  
+██╔═██╗ ██╔══██║██╔══██╗██╔══██║██║   ██║██╔═██╗ ██╔══╝  
+██║  ██╗██║  ██║██║  ██║██║  ██║╚██████╔╝██║  ██╗███████╗
+╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+                                                         
+███╗   ███╗ █████╗  ██████╗██╗  ██╗██╗███╗   ██╗███████╗ 
+████╗ ████║██╔══██╗██╔════╝██║  ██║██║████╗  ██║██╔════╝ 
+██╔████╔██║███████║██║     ███████║██║██╔██╗ ██║█████╗   
+██║╚██╔╝██║██╔══██║██║     ██╔══██║██║██║╚██╗██║██╔══╝   
+██║ ╚═╝ ██║██║  ██║╚██████╗██║  ██║██║██║ ╚████║███████╗ 
+╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝ 
+
+          {CYAN}a Python CLI project by @eburdekin{RESET}                                                                                                                                                                       
+              """
+    )
 
 
 if __name__ == "__main__":
