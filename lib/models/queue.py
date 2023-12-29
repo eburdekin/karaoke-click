@@ -4,6 +4,6 @@ from models.song import Song
 # from Singer import Singer
 
 
-class Playlist:
+class Queue:
     def __init__(self):
         pass

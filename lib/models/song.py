@@ -1,4 +1,6 @@
-# from __init__ import CONN, CURSOR
+from .__init__ import CONN, CURSOR
+
+from data.song_library import song_library
 
 
 class Song:
@@ -46,9 +48,39 @@ class Song:
         CONN.commit()
 
     @classmethod
+    def add_song_library(cls):
+        sql = """
+            INSERT INTO songs (title, artist, genre, lyrics)
+            VALUES (?, ?, ?, ?)
+        """
+
+        for song in song_library:
+            values = (
+                song["title"],
+                song["artist"],
+                song["genre"],
+                song["lyrics"],
+            )
+            CURSOR.execute(sql, values)
+
+        CONN.commit()
+
+    @classmethod
     def drop_table(cls):
         sql = """
             DROP TABLE IF EXISTS songs;
         """
         CURSOR.execute(sql)
         CONN.commit()
+
+    @classmethod
+    def get_all(cls):
+        """Return a list containing a Song object per row in the table"""
+        sql = """
+            SELECT id, title, artist, genre
+            FROM songs
+        """
+
+        rows = CURSOR.execute(sql).fetchall()
+
+        print([row for row in rows])
