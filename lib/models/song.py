@@ -95,6 +95,7 @@ class Song:
             WHERE artist = ?
         """
 
+        print(f"Results for artist: {artist}")
         rows = CURSOR.execute(sql, (artist,)).fetchall()
 
         for row in rows:
@@ -109,6 +110,7 @@ class Song:
             WHERE genre = ?
         """
 
+        print(f"Results for genre: {genre}")
         rows = CURSOR.execute(sql, (genre,)).fetchall()
 
         for row in rows:
