@@ -32,6 +32,14 @@ def get_all_songs():
     Song.get_all()
 
 
+def get_songs_by_artist(artist):
+    Song.get_by_artist(artist)
+
+
+def get_songs_by_genre(genre):
+    Song.get_by_genre(genre)
+
+
 def exit_program():
     print("Goodbye!")
     exit()

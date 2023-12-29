@@ -83,4 +83,33 @@ class Song:
 
         rows = CURSOR.execute(sql).fetchall()
 
-        print([row for row in rows])
+        for row in rows:
+            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")
+
+    @classmethod
+    def get_by_artist(cls, artist):
+        """Return a list containing a Song object per row in the table"""
+        sql = """
+            SELECT id, title, artist, genre
+            FROM songs
+            WHERE artist = ?
+        """
+
+        rows = CURSOR.execute(sql, (artist,)).fetchall()
+
+        for row in rows:
+            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")
+
+    @classmethod
+    def get_by_genre(cls, genre):
+        """Return a list containing a Song object per row in the table"""
+        sql = """
+            SELECT id, title, artist, genre
+            FROM songs
+            WHERE genre = ?
+        """
+
+        rows = CURSOR.execute(sql, (genre,)).fetchall()
+
+        for row in rows:
+            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")

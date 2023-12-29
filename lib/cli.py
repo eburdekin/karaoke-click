@@ -1,6 +1,13 @@
 # lib/cli.py
 
-from machine import load_song, add_song, exit_program, get_all_songs
+from machine import (
+    load_song,
+    add_song,
+    exit_program,
+    get_all_songs,
+    get_songs_by_artist,
+    get_songs_by_genre,
+)
 
 # CYAN = "\033[96m"
 CYAN_BOLD = "\033[96;1m"
@@ -21,6 +28,14 @@ def main():
             get_all_songs()
         # elif choice == "2":
         #     add_song()
+        elif choice == "7":
+            # Get user input for the song title
+            artist = input("Enter artist name: ")
+            get_songs_by_artist(artist)
+        elif choice == "8":
+            # Get user input for the song title
+            genre = input("Enter genre: ")
+            get_songs_by_genre(genre)
         elif choice == "0":
             exit_program()
         else:
