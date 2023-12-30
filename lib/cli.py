@@ -7,6 +7,7 @@ from machine import (
     get_all_songs,
     get_songs_by_artist,
     get_songs_by_genre,
+    view_queue,
 )
 
 # CYAN = "\033[96m"
@@ -24,10 +25,14 @@ def main():
 
         menu()
         choice = input("> ")
-        if choice == "6":
+        if choice == "3":
+            song_id = input("Enter song id: ")
+            singer = input("Who is singing?: ")
+            add_song(song_id, singer)
+        elif choice == "5":
+            view_queue()
+        elif choice == "6":
             get_all_songs()
-        # elif choice == "2":
-        #     add_song()
         elif choice == "7":
             # Get user input for the song title
             artist = input("Enter artist name: ")

@@ -6,7 +6,7 @@ from data.song_library import song_library
 class Song:
     all = {}
 
-    def __init__(self, title, artist, genre, lyrics, singer_id, id=None):
+    def __init__(self, title, artist, genre, lyrics, singer_id=None, id=None):
         self.id = id
         self.title = title
         self.artist = artist
