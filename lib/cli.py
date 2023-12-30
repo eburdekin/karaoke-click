@@ -114,7 +114,7 @@ def pause_current_song():
 @app.command()
 def add_song_command():
     song_id = typer.prompt("Enter song ID")
-    singer_name = typer.prompt("As performed by")
+    singer_name = typer.prompt("Who is singing?")
     add_song(song_id, singer_name)
 
 
