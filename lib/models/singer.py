@@ -1,4 +1,5 @@
 from .__init__ import CONN, CURSOR
+from .song import Song
 
 
 class Singer:
@@ -49,14 +50,19 @@ class Singer:
         CONN.commit()
 
     @classmethod
-    def view_up_next(cls):
+    def view(cls):
         sql = """
-        SELECT * FROM singers
+        SELECT name
+        FROM singers
+        INNER JOIN songs
+        ON singers.song_id = songs.id
         """
         rows = CURSOR.execute(sql).fetchall()
-
+        print("Currently in line:")
         for row in rows:
-            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")
+            print(f"Name: {row[0]}")
+        if not rows:
+            print("Nobody, yet! Add your name!")
 
     @classmethod
     def drop_table(cls):

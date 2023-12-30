@@ -6,17 +6,16 @@ from data.song_library import song_library
 class Song:
     all = {}
 
-    def __init__(self, title, artist, genre, lyrics, singer_id=None, id=None):
+    def __init__(self, title, artist, genre, lyrics, id=None):
         self.id = id
         self.title = title
         self.artist = artist
         self.genre = genre
         self.lyrics = lyrics
-        self.singer_id = singer_id
         type(self).all.append(self)
 
     def __repr__(self):
-        return f"<Song {song.id}: {song.title}, {song.singer}>"
+        return f"<Song {self.id}: {self.title}, {self.singer}>"
 
     @property
     def singer(self):
@@ -40,8 +39,7 @@ class Song:
             title TEXT,
             artist TEXT,
             genre TEXT,
-            lyrics TEXT,
-            singer_id INTEGER
+            lyrics TEXT
             )
         """
         CURSOR.execute(sql)

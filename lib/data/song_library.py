@@ -4,9 +4,15 @@ song_library = [
         "artist": "Wet Leg",
         "genre": "Alt",
         "lyrics": """
-     lalalallal
-     lalallllala
-     lalalalalla
-     lalalalalal""",
+lalalallal
+lalallllala
+lalalalalal
+lalalalalal
+
+lalalalalal
+lalalalalal
+lalalalalal
+lalalalalal
+""",
     },
 ]

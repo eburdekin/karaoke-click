@@ -8,6 +8,7 @@ from machine import (
     get_songs_by_artist,
     get_songs_by_genre,
     view_queue,
+    view_up_next,
 )
 
 # CYAN = "\033[96m"
@@ -41,6 +42,8 @@ def main():
             # Get user input for the song title
             genre = input("Enter genre: ")
             get_songs_by_genre(genre)
+        elif choice == "9":
+            view_up_next()
         elif choice == "0":
             exit_program()
         else:
@@ -57,6 +60,7 @@ def menu():
     print("6. View all songs")
     print("7. View songs by artist")
     print("8. View songs by genre")
+    print("9. View up next")
     print("0. Exit")
 
 

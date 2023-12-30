@@ -37,6 +37,10 @@ def view_queue():
     Queue.display()
 
 
+def view_up_next():
+    Singer.view()
+
+
 # Methods for Songs
 def get_all_songs():
     Song.get_all()
@@ -53,6 +57,5 @@ def get_songs_by_genre(genre):
 def exit_program():
     print("Goodbye!")
     Song.drop_table()
-    Singer.drop_table()
     # Queue.drop_table()
     exit()
