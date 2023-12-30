@@ -1,5 +1,6 @@
 from models.__init__ import CONN, CURSOR
-from models.queue import Queue
+
+# from models.queue import Queue
 from models.song import Song
 from models.singer import Singer
 from data.song_library import song_library
@@ -11,14 +12,14 @@ class KaraokeMachine:
 
     Song.create_table()
     Song.add_song_library()
-    Queue.create_table()
+    # Queue.create_table()
     Singer.create_table()
 
 
 # Methods for Queue
 def add_song(song_id, singer):
     Singer.create_singer(singer, song_id)
-    Queue.add_song_to_queue(song_id, singer)
+    # Queue.add_song_to_queue(song_id, singer)
 
 
 def remove_song():
@@ -34,7 +35,7 @@ def pause_song():
 
 
 def view_queue():
-    Queue.display()
+    pass
 
 
 def view_up_next():

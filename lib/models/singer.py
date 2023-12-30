@@ -52,7 +52,7 @@ class Singer:
     @classmethod
     def view(cls):
         sql = """
-        SELECT name
+        SELECT singers.id, singers.name, songs.title
         FROM singers
         INNER JOIN songs
         ON singers.song_id = songs.id
@@ -60,7 +60,7 @@ class Singer:
         rows = CURSOR.execute(sql).fetchall()
         print("Currently in line:")
         for row in rows:
-            print(f"Name: {row[0]}")
+            print(f"#{row[0]} Name: {row[1]}, Song: {row[2]}")
         if not rows:
             print("Nobody, yet! Add your name!")
 
