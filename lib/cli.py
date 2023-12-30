@@ -1,4 +1,4 @@
-# lib/cli.py
+import typer
 from machine import (
     load_song,
     add_song,
@@ -11,69 +11,12 @@ from machine import (
     view_up_next,
 )
 
-# CYAN = "\033[96m"
-CYAN_BOLD = "\033[96;1m"
-RESET = "\033[0m"
-
-
-def main():
-    title_card_displayed = False
-
-    while True:
-        if not title_card_displayed:
-            display_title_card()
-            title_card_displayed = True
-
-        menu()
-        choice = input("> ")
-        if choice == "1":
-            print("1 entered")
-        elif choice == "2":
-            print("2 entered")
-        elif choice == "3":
-            song_id = input("Enter song id: ")
-            singer_name = input("Who is singing?: ")
-            add_song(song_id, singer_name)
-        elif choice == "4":
-            singer_name = input("Who to remove?: ")
-            remove_song(singer_name)
-        elif choice == "5":
-            view_queue()
-        elif choice == "6":
-            view_up_next()
-        elif choice == "7":
-            get_all_songs()
-        elif choice == "8":
-            # Get user input for the song title
-            artist = input("Enter artist name: ")
-            get_songs_by_artist(artist)
-        elif choice == "9":
-            # Get user input for the song title
-            genre = input("Enter genre: ")
-            get_songs_by_genre(genre)
-        elif choice == "0":
-            exit_program()
-        else:
-            print("Invalid choice")
-
-
-def menu():
-    print("Choose an option:")
-    print("x. Load next song")
-    print("x. Pause current song")
-    print("3. Add song to queue")
-    print("4. Remove song from queue")
-    print("5. View queue by song")
-    print("6. View queue by singer")
-    print("7. View all songs")
-    print("8. View songs by artist")
-    print("9. View songs by genre")
-    print("0. Exit")
+app = typer.Typer()
 
 
 def display_title_card():
-    print("*" * 58)
-    print(
+    typer.echo("*" * 58)
+    typer.echo(
         f"""
 ██╗  ██╗ █████╗ ██████╗  █████╗  ██████╗ ██╗  ██╗███████╗
 ██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██║ ██╔╝██╔════╝
@@ -90,10 +33,93 @@ def display_title_card():
  ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝    
    
 {"*" * 58}            
-           {CYAN_BOLD}a Python CLI project by @eburdekin{RESET}                                                                                                                              
-              """
+                   {typer.style("a Python CLI project by @eburdekin", fg=typer.colors.CYAN, bold=True)}
+                      """
     )
 
 
+@app.callback(invoke_without_command=True)
+def main():
+    display_title_card()
+    menu()
+
+
+# title_card_displayed = False
+
+# while True:
+#     if not title_card_displayed:
+#         display_title_card()
+#         title_card_displayed = True
+
+#     menu()
+
+
+@app.command()
+def menu():
+    typer.echo("Choose an option:")
+    typer.echo("1. Load next song")
+    typer.echo("2. Pause current song")
+    typer.echo("3. Add song to queue")
+    typer.echo("4. Remove song from queue")
+    typer.echo("5. View queue by song")
+    typer.echo("6. View queue by singer")
+    typer.echo("7. View all songs")
+    typer.echo("8. View songs by artist")
+    typer.echo("9. View songs by genre")
+    typer.echo("0. Exit")
+
+
+@app.command()
+def load_next_song():
+    typer.echo("Loading next song.")
+
+
+@app.command()
+def pause_current_song():
+    typer.echo("Pausing current song.")
+
+
+@app.command()
+def add_song_command(
+    song_id: str = typer.Argument(...), singer_name: str = typer.Argument(...)
+):
+    add_song(song_id, singer_name)
+
+
+@app.command()
+def remove_song_command(singer_name: str = typer.Argument(...)):
+    remove_song(singer_name)
+
+
+@app.command()
+def view_queue_command():
+    view_queue()
+
+
+@app.command()
+def view_up_next_command():
+    view_up_next()
+
+
+@app.command()
+def view_all_songs():
+    get_all_songs()
+
+
+@app.command()
+def view_songs_by_artist(artist: str = typer.Argument(...)):
+    get_songs_by_artist(artist)
+
+
+@app.command()
+def view_songs_by_genre(genre: str = typer.Argument(...)):
+    get_songs_by_genre(genre)
+
+
+@app.command()
+def exit_command():
+    exit_program()
+
+
 if __name__ == "__main__":
-    main()
+    app()
