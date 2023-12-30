@@ -1,3 +1,5 @@
-# Karaoke
+# Karaoke Machine
 
-## by Eileen Burdekin
+### a Python CLI project by Eileen Burdekin
+
+#### built with Typer
