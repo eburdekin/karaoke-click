@@ -15,7 +15,7 @@ class Singer:
 
     @name.setter
     def name(self, name):
-        if isinstance(name, str) and len(name) > 0:
+        if name not in Singer.all and isinstance(name, str) and len(name) > 0:
             self._name = name
         else:
             raise Exception("unique name, string of at least 1 char")
@@ -48,6 +48,23 @@ class Singer:
         values = (singer.name, song_id)
         CURSOR.execute(sql, values)
         CONN.commit()
+
+    @classmethod
+    def remove_singer_by_name(cls, name):
+        """Remove a singer by name."""
+        singer_id = cls.get_singer_id(name)
+
+        if singer_id is not None:
+            # Remove the singer from the database
+            sql = "DELETE FROM singers WHERE id = ?"
+            CURSOR.execute(sql, (singer_id,))
+            CONN.commit()
+
+            deleted_singer = cls(name, id=singer_id)
+            return deleted_singer
+        else:
+            print(f"No singer found with the name: {name}")
+            return None
 
     @classmethod
     def view(cls):

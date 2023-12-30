@@ -19,8 +19,9 @@ def add_song(song_id, singer_name):
     Song.update_singer_id(song_id, singer_id)
 
 
-def remove_song():
-    pass
+def remove_song(singer_name):
+    Singer.remove_singer_by_name(singer_name)
+    # add methods to remove singer ID from song
 
 
 def load_song():
@@ -55,5 +56,5 @@ def get_songs_by_genre(genre):
 def exit_program():
     print("Goodbye!")
     Song.drop_table()
-    # Queue.drop_table()
+    Singer.drop_table()
     exit()

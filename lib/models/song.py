@@ -100,7 +100,9 @@ class Song:
         rows = CURSOR.execute(sql).fetchall()
         print("Songs in queue:")
         for row in rows:
-            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Sung by: {row[3]}")
+            print(f"#{row[0]} Title: {row[1]}, Artist: {row[2]}, Sung by: {row[3]}")
+        if not rows:
+            print("None, yet! Add your song!")
 
     @classmethod
     def update_singer_id(cls, song_id, singer_id):
