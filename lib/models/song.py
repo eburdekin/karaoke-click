@@ -2,6 +2,11 @@ from .__init__ import CONN, CURSOR
 
 from data.song_library import song_library
 
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
+
 
 class Song:
     all = {}
@@ -83,8 +88,16 @@ class Song:
 
         rows = CURSOR.execute(sql).fetchall()
 
+        table = Table(title="All Songs")
+        table.add_column("ID", justify="right", style="cyan")
+        table.add_column("Title", style="magenta")
+        table.add_column("Artist", style="green")
+        table.add_column("Genre", style="yellow")
+
         for row in rows:
-            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")
+            table.add_row(str(row[0]), row[1], row[2], row[3])
+
+        console.print(table)
 
     @classmethod
     def get_queued(cls):
@@ -121,11 +134,18 @@ class Song:
             WHERE artist = ?
         """
 
-        print(f"Results for artist: {artist}")
         rows = CURSOR.execute(sql, (artist,)).fetchall()
 
+        table = Table(title=f"Songs by {artist}")
+        table.add_column("ID", justify="right", style="cyan")
+        table.add_column("Title", style="magenta")
+        table.add_column("Artist", style="green")
+        table.add_column("Genre", style="yellow")
+
         for row in rows:
-            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")
+            table.add_row(str(row[0]), row[1], row[2], row[3])
+
+        console.print(table)
 
     @classmethod
     def get_by_genre(cls, genre):
@@ -136,8 +156,15 @@ class Song:
             WHERE genre = ?
         """
 
-        print(f"Results for genre: {genre}")
         rows = CURSOR.execute(sql, (genre,)).fetchall()
 
+        table = Table(title=f"Songs in the {genre} genre")
+        table.add_column("ID", justify="right", style="cyan")
+        table.add_column("Title", style="magenta")
+        table.add_column("Artist", style="green")
+        table.add_column("Genre", style="yellow")
+
         for row in rows:
-            print(f"ID: {row[0]}, Title: {row[1]}, Artist: {row[2]}, Genre: {row[3]}")
+            table.add_row(str(row[0]), row[1], row[2], row[3])
+
+        console.print(table)

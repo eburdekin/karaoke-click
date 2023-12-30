@@ -140,14 +140,12 @@ def view_all_songs():
 
 
 @app.command()
-def view_songs_by_artist():
-    artist = Prompt.ask("Enter artist name:", style="bold")
+def view_songs_by_artist(artist: str = typer.Argument(...)):
     get_songs_by_artist(artist)
 
 
 @app.command()
-def view_songs_by_genre():
-    genre = Prompt.ask("Enter genre:", style="bold")
+def view_songs_by_genre(genre: str = typer.Argument(...)):
     get_songs_by_genre(genre)
 
 
