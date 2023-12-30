@@ -1,5 +1,5 @@
 # lib/cli.py
-
+import click
 from machine import (
     load_song,
     add_song,
