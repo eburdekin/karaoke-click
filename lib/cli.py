@@ -1,4 +1,6 @@
 import typer
+from rich.console import Console
+
 from machine import (
     load_song,
     add_song,
@@ -12,6 +14,7 @@ from machine import (
 )
 
 app = typer.Typer()
+console = Console()
 
 
 def display_title_card():
@@ -44,22 +47,33 @@ def main():
     menu()
 
 
+def format_menu():
+    options = [
+        ("1", "Load next song"),
+        ("2", "Pause current song"),
+        ("3", "Add song to queue"),
+        ("4", "Remove song from queue"),
+        ("5", "View queue by song"),
+        ("6", "View queue by singer"),
+        ("7", "View all songs"),
+        ("8", "View songs by artist"),
+        ("9", "View songs by genre"),
+        ("0", "Exit"),
+    ]
+
+    menu_text = "\n".join(
+        [f"{option}. {description}" for option, description in options]
+    )
+    return menu_text
+
+
 @app.command()
 def menu():
     while True:
-        typer.echo("Choose an option:")
-        typer.echo("1. Load next song")
-        typer.echo("2. Pause current song")
-        typer.echo("3. Add song to queue")
-        typer.echo("4. Remove song from queue")
-        typer.echo("5. View queue by song")
-        typer.echo("6. View queue by singer")
-        typer.echo("7. View all songs")
-        typer.echo("8. View songs by artist")
-        typer.echo("9. View songs by genre")
-        typer.echo("0. Exit")
+        console.print("Choose an option:")
+        console.print(format_menu())
 
-        choice = typer.prompt("Enter the number of your choice (0-9):", type=int)
+        choice = typer.prompt("Enter selection (0-9)", type=int)
         if choice == 1:
             load_next_song()
         elif choice == 2:
@@ -75,10 +89,10 @@ def menu():
         elif choice == 7:
             view_all_songs()
         elif choice == 8:
-            artist = typer.prompt("Enter artist name:")
+            artist = typer.prompt("Enter artist name")
             view_songs_by_artist(artist)
         elif choice == 9:
-            genre = typer.prompt("Enter genre:")
+            genre = typer.prompt("Enter genre")
             view_songs_by_genre(genre)
         elif choice == 0:
             exit_command()
@@ -99,13 +113,14 @@ def pause_current_song():
 
 @app.command()
 def add_song_command():
-    song_id = typer.prompt("Enter song ID: ")
-    singer_name = typer.prompt("Who is singing?: ")
+    song_id = typer.prompt("Enter song ID")
+    singer_name = typer.prompt("As performed by")
     add_song(song_id, singer_name)
 
 
 @app.command()
-def remove_song_command(singer_name: str = typer.Argument(...)):
+def remove_song_command():
+    singer_name = typer.prompt("Take this name off the list")
     remove_song(singer_name)
 
 
@@ -125,12 +140,14 @@ def view_all_songs():
 
 
 @app.command()
-def view_songs_by_artist(artist: str = typer.Argument(...)):
+def view_songs_by_artist():
+    artist = Prompt.ask("Enter artist name:", style="bold")
     get_songs_by_artist(artist)
 
 
 @app.command()
-def view_songs_by_genre(genre: str = typer.Argument(...)):
+def view_songs_by_genre():
+    genre = Prompt.ask("Enter genre:", style="bold")
     get_songs_by_genre(genre)
 
 
