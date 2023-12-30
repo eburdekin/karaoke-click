@@ -28,8 +28,8 @@ def main():
         choice = input("> ")
         if choice == "3":
             song_id = input("Enter song id: ")
-            singer = input("Who is singing?: ")
-            add_song(song_id, singer)
+            singer_name = input("Who is singing?: ")
+            add_song(song_id, singer_name)
         elif choice == "5":
             view_queue()
         elif choice == "6":
@@ -52,10 +52,10 @@ def main():
 
 def menu():
     print("Choose an option:")
-    print("1. Load next song")
-    print("2. Pause current song")
+    print("x. Load next song")
+    print("x. Pause current song")
     print("3. Add song to queue")
-    print("4. Remove song from queue")
+    print("x. Remove song from queue")
     print("5. View queue")
     print("6. View all songs")
     print("7. View songs by artist")

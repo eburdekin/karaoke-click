@@ -65,6 +65,13 @@ class Singer:
             print("Nobody, yet! Add your name!")
 
     @classmethod
+    def get_singer_id(cls, name):
+        """Get the singer_id based on the singer's name."""
+        sql = "SELECT id FROM singers WHERE name = ?"
+        result = CURSOR.execute(sql, (name,)).fetchone()
+        return result[0] if result is not None else None
+
+    @classmethod
     def drop_table(cls):
         sql = """
             DROP TABLE IF EXISTS singers
