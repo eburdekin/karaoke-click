@@ -40,9 +40,7 @@ def display_title_card():
    
 {"*" * 58}"""
     )
-    console.print(
-        "          a Python CLI project by @eburdekin\n", style="bold color(6)"
-    )
+    console.print("          a Python CLI project by @eburdekin", style="bold color(6)")
 
 
 @app.callback(invoke_without_command=True)
@@ -74,7 +72,7 @@ def format_menu():
 @app.command()
 def menu():
     while True:
-        console.print("Choose an option:", style="color(5)")
+        console.print("\nChoose an option:", style="color(5)")
         console.print(format_menu())
 
         choice = IntPrompt.ask("Enter selection (0-9)")

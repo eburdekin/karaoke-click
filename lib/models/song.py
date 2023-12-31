@@ -164,20 +164,21 @@ class Song:
                 for chunk in chunks:
                     live.update(chunk)
                     lines = chunk.splitlines()
+                    exit_live = False
 
-                    for i in range(len(lines)):
-                        highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
-                        display_text = "\n".join(
-                            lines[j] if j != i else highlighted_line
-                            for j in range(len(lines))
-                        )
-                        live.update(display_text)
+                    while not exit_live:
+                        for i in range(len(lines)):
+                            highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
+                            display_text = "\n".join(
+                                lines[j] if j != i else highlighted_line
+                                for j in range(len(lines))
+                            )
+                            live.update(display_text)
 
-                        time.sleep(2)  # Adjust the sleep duration as needed
+                            time.sleep(2)  # Adjust the sleep duration as needed
 
-                    # Sleep before moving to the next chunk
-                    time.sleep(1)
-                    live.update("")
+                        # Sleep before moving to the next chunk
+                        exit_live = True
 
     @classmethod
     def get_by_artist(cls, artist):

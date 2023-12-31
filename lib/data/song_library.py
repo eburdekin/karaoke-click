@@ -17,7 +17,7 @@ Guidance to be true
 And I just don't know where I can begin\n
 What I need is a good defense
 'Cause I'm feelin' like a criminal
-And I need to redeemed
+And I need to be redeemed
 To the one I've sinned against
 Because he's all I ever knew of love\n
 Heaven help me for the way I am
@@ -34,7 +34,7 @@ So I'm beggin' you before it ends
 Just tell me where to begin\n
 What I need is a good defense
 'Cause I'm feelin' like a criminal
-And I need to redeemed
+And I need to be redeemed
 To the one I've sinned against
 Because he's all I ever knew of love\n
 Let me know the way
@@ -46,12 +46,12 @@ So what would an angel say
 The devil wants to know\n
 What I need is a good defense
 'Cause I'm feelin' like a criminal
-And I need to redeemed
+And I need to be redeemed
 To the one I've sinned against
 Because he's all I ever knew of love\n
 What I need is a good defense
 'Cause I'm feelin' like a criminal
-And I need to redeemed
+And I need to be redeemed
 To the one I've sinned against
 Because he's all I ever knew of love
 """,
