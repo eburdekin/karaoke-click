@@ -19,8 +19,9 @@ console = Console()
 
 
 def display_title_card():
-    typer.echo("*" * 58)
-    typer.echo(
+    console.print("\n")
+    console.print("*" * 58)
+    console.print(
         f"""
 ██╗  ██╗ █████╗ ██████╗  █████╗  ██████╗ ██╗  ██╗███████╗
 ██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██║ ██╔╝██╔════╝
@@ -36,9 +37,10 @@ def display_title_card():
  ██║ ╚═╝ ██║██║  ██║╚██████╗██║  ██║██║██║ ╚████║███████╗ 
  ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝    
    
-{"*" * 58}            
-            {typer.style("a Python CLI project by @eburdekin", fg=typer.colors.CYAN, bold=True)}
-                      """
+{"*" * 58}"""
+    )
+    console.print(
+        "          a Python CLI project by @eburdekin\n", style="bold color(6)"
     )
 
 
@@ -59,7 +61,7 @@ def format_menu():
         ("7", "View all songs"),
         ("8", "View songs by artist"),
         ("9", "View songs by genre"),
-        ("0", "Exit"),
+        ("0", "Exit\n"),
     ]
 
     menu_text = "\n".join(
@@ -71,7 +73,7 @@ def format_menu():
 @app.command()
 def menu():
     while True:
-        console.print("Choose an option:")
+        console.print("Choose an option:", style="color(5)")
         console.print(format_menu())
 
         choice = IntPrompt.ask("Enter selection (0-9)")

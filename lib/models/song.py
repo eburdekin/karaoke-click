@@ -7,6 +7,9 @@ from rich.table import Table
 
 console = Console()
 
+error_style = "color(9)"
+callout_style = "color(2)"
+
 
 class Song:
     all = {}
@@ -22,19 +25,6 @@ class Song:
 
     def __repr__(self):
         return f"<Song {self.id}: {self.title}, {self.singer}>"
-
-    @property
-    def singer(self):
-        return self._singer
-
-    @singer.setter
-    def singer(self, singer):
-        if hasattr(self, "singer"):
-            raise Exception("Song already has Singer")
-        elif not isinstance(singer, Singer):
-            raise Exception("Singer must be of Singer class")
-        else:
-            self._singer = singer
 
     # CRUD methods for Song
     @classmethod
@@ -111,19 +101,32 @@ class Song:
         """
 
         rows = CURSOR.execute(sql).fetchall()
-        print("Songs in queue:")
+        console.print("Songs in queue:")
         for row in rows:
             print(f"#{row[0]} Title: {row[1]}, Artist: {row[2]}, Sung by: {row[3]}")
         if not rows:
-            print("None, yet! Add your song!")
+            console.print("No songs yet! Add yours!", style=callout_style)
 
     @classmethod
     def update_singer_id(cls, song_id, singer_id):
-        """Update the singer_id for a song."""
-        sql = "UPDATE songs SET singer_id = ? WHERE id = ?"
+        """Update the singer_id for a song if it's currently NULL."""
+        # Check if the current singer_id is NULL
+        check_sql = "SELECT singer_id FROM songs WHERE id = ?"
+        current_singer_id = CURSOR.execute(check_sql, (int(song_id),)).fetchone()
+
+        if current_singer_id[0] is not None:
+            console.print(
+                "This song is already in the queue. Choose another!",
+                style=error_style,
+            )
+            return
+
+        # Update the singer_id if it's currently NULL
+        update_sql = "UPDATE songs SET singer_id = ? WHERE id = ?"
         values = (singer_id, int(song_id))
-        CURSOR.execute(sql, values)
+        CURSOR.execute(update_sql, values)
         CONN.commit()
+        print(f"Singer_id updated for song ID {song_id}.")
 
     @classmethod
     def get_by_artist(cls, artist):

@@ -15,7 +15,7 @@ class Singer:
 
     @name.setter
     def name(self, name):
-        if name not in Singer.all and isinstance(name, str) and len(name) > 0:
+        if isinstance(name, str) and len(name) > 0 and name not in Singer.all:
             self._name = name
         else:
             raise Exception("unique name, string of at least 1 char")
