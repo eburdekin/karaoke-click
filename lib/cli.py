@@ -55,8 +55,8 @@ def main():
 def format_menu():
     options = [
         ("1", "Add song to queue"),
-        ("2", "Load next song"),
-        ("3", "Pause current song"),
+        ("2", "Remove song from queue"),
+        ("3", "Load next song"),
         ("4", "View queue by song"),
         ("5", "View queue by singer"),
         ("6", "View all songs"),
@@ -122,7 +122,7 @@ def add_song_command():
 def remove_song_command():
     singer_name = Prompt.ask("Take this name off the list")
     remove_song(singer_name)
-    console.print(f"{singer_name} removed from queue!", style=update_style)
+    # console.print(f"{singer_name} removed from queue!", style=update_style)
 
 
 @app.command()
