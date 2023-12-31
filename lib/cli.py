@@ -1,5 +1,6 @@
 import typer
 from rich.console import Console
+from rich.prompt import Prompt, IntPrompt
 
 from machine import (
     load_song,
@@ -73,7 +74,7 @@ def menu():
         console.print("Choose an option:")
         console.print(format_menu())
 
-        choice = typer.prompt("Enter selection (0-9)", type=int)
+        choice = IntPrompt.ask("Enter selection (0-9)")
         if choice == 1:
             load_next_song()
         elif choice == 2:
@@ -89,10 +90,10 @@ def menu():
         elif choice == 7:
             view_all_songs()
         elif choice == 8:
-            artist = typer.prompt("Enter artist name")
+            artist = Prompt.ask("Enter artist name")
             view_songs_by_artist(artist)
         elif choice == 9:
-            genre = typer.prompt("Enter genre")
+            genre = Prompt.ask("Enter genre")
             view_songs_by_genre(genre)
         elif choice == 0:
             exit_command()
@@ -113,14 +114,14 @@ def pause_current_song():
 
 @app.command()
 def add_song_command():
-    song_id = typer.prompt("Enter song ID")
-    singer_name = typer.prompt("Who is singing?")
+    song_id = Prompt.ask("Enter song ID")
+    singer_name = Prompt.ask("Who is singing?")
     add_song(song_id, singer_name)
 
 
 @app.command()
 def remove_song_command():
-    singer_name = typer.prompt("Take this name off the list")
+    singer_name = Prompt.ask("Take this name off the list")
     remove_song(singer_name)
 
 

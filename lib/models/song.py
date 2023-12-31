@@ -136,7 +136,7 @@ class Song:
 
         rows = CURSOR.execute(sql, (artist,)).fetchall()
 
-        table = Table(title=f"Songs by {artist}")
+        table = Table(title=f"Songs by: {artist}")
         table.add_column("ID", justify="right", style="cyan")
         table.add_column("Title", style="magenta")
         table.add_column("Artist", style="green")
@@ -158,7 +158,7 @@ class Song:
 
         rows = CURSOR.execute(sql, (genre,)).fetchall()
 
-        table = Table(title=f"Songs in the {genre} genre")
+        table = Table(title=f"Songs in: {genre}")
         table.add_column("ID", justify="right", style="cyan")
         table.add_column("Title", style="magenta")
         table.add_column("Artist", style="green")
