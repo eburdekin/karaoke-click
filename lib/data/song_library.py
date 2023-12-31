@@ -124,11 +124,11 @@ Well, hey hey hey
 """,
     },
     {
-        "title": "Hit 'Em Up Style (Oops)",
+        "title": "Hit 'Em Up Style",
         "artist": "Blu Cantrell",
         "genre": "Pop",
         "lyrics": """
-Hit 'Em Up Style (Oops) - Blu Cantrell
+Hit 'Em Up Style - Blu Cantrell
 While he was schemeing
 I was beamin in the Beamer just beamin
 Can't believe that I caught my man cheatin'
