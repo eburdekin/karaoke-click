@@ -45,6 +45,10 @@ def get_all_songs():
     Song.get_all()
 
 
+def get_songs_by_title(title):
+    Song.get_by_title(title)
+
+
 def get_songs_by_artist(artist):
     Song.get_by_artist(artist)
 

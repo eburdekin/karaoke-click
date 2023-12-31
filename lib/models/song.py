@@ -181,6 +181,28 @@ class Song:
             console.print("No songs yet! Add yours!", style=callout_style)
 
     @classmethod
+    def get_by_title(cls, title):
+        """Return a list containing a Song object per row in the table"""
+        sql = """
+            SELECT id, title, artist, genre
+            FROM songs
+            WHERE title = ?
+        """
+
+        rows = CURSOR.execute(sql, (title,)).fetchall()
+
+        table = Table(title=f"Songs with title: {title}")
+        table.add_column("ID", justify="right", style="cyan")
+        table.add_column("Title", style="magenta")
+        table.add_column("Artist", style="green")
+        table.add_column("Genre", style="yellow")
+
+        for row in rows:
+            table.add_row(str(row[0]), row[1], row[2], row[3])
+
+        console.print(table)
+
+    @classmethod
     def get_by_artist(cls, artist):
         """Return a list containing a Song object per row in the table"""
         sql = """

@@ -9,6 +9,7 @@ from machine import (
     remove_song,
     exit_program,
     get_all_songs,
+    get_songs_by_title,
     get_songs_by_artist,
     get_songs_by_genre,
     view_queue,
@@ -54,12 +55,12 @@ def main():
 def format_menu():
     options = [
         ("1", "Add song to queue"),
-        ("2", "Remove song from queue"),
-        ("3", "Load next song"),
-        ("4", "Pause current song"),
-        ("5", "View queue by song"),
-        ("6", "View queue by singer"),
-        ("7", "View all songs"),
+        ("2", "Load next song"),
+        ("3", "Pause current song"),
+        ("4", "View queue by song"),
+        ("5", "View queue by singer"),
+        ("6", "View all songs"),
+        ("7", "View songs by title"),
         ("8", "View songs by artist"),
         ("9", "View songs by genre"),
         ("0", "Exit\n"),
@@ -85,13 +86,14 @@ def menu():
         elif choice == 3:
             load_next_song()
         elif choice == 4:
-            pause_current_song()
-        elif choice == 5:
             view_queue_command()
-        elif choice == 6:
+        elif choice == 5:
             view_up_next_command()
-        elif choice == 7:
+        elif choice == 6:
             view_all_songs()
+        elif choice == 7:
+            title = Prompt.ask("Enter song title")
+            view_songs_by_title(title)
         elif choice == 8:
             artist = Prompt.ask("Enter artist name")
             view_songs_by_artist(artist)
@@ -146,6 +148,11 @@ def view_up_next_command():
 @app.command()
 def view_all_songs():
     get_all_songs()
+
+
+@app.command()
+def view_songs_by_title(title: str = typer.Argument(...)):
+    get_songs_by_title(title)
 
 
 @app.command()
