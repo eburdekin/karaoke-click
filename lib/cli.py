@@ -18,6 +18,8 @@ from machine import (
 app = typer.Typer()
 console = Console()
 
+update_style = "color(6)"
+
 
 def display_title_card():
     console.print("\n")
@@ -107,6 +109,21 @@ def menu():
 
 
 @app.command()
+def add_song_command():
+    song_id = Prompt.ask("Enter song ID")
+    singer_name = Prompt.ask("Who is singing?")
+    add_song(song_id, singer_name)
+    console.print(f"Song #{song_id} added to queue!", style=update_style)
+
+
+@app.command()
+def remove_song_command():
+    singer_name = Prompt.ask("Take this name off the list")
+    remove_song(singer_name)
+    console.print(f"{singer_name} removed from queue!", style=update_style)
+
+
+@app.command()
 def load_next_song():
     load_song()
 
@@ -114,19 +131,6 @@ def load_next_song():
 @app.command()
 def pause_current_song():
     pause_song()
-
-
-@app.command()
-def add_song_command():
-    song_id = Prompt.ask("Enter song ID")
-    singer_name = Prompt.ask("Who is singing?")
-    add_song(song_id, singer_name)
-
-
-@app.command()
-def remove_song_command():
-    singer_name = Prompt.ask("Take this name off the list")
-    remove_song(singer_name)
 
 
 @app.command()

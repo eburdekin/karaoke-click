@@ -6,7 +6,6 @@ from rich.console import Console
 from rich.table import Table
 from rich.live import Live
 
-# import textwrap
 import time
 
 console = Console()
@@ -133,7 +132,6 @@ class Song:
         values = (singer_id, int(song_id))
         CURSOR.execute(update_sql, values)
         CONN.commit()
-        console.print(f"Singer_id updated for song ID {song_id}.")
 
     @classmethod
     def load_next_song(cls):
@@ -179,6 +177,8 @@ class Song:
 
                         # Sleep before moving to the next chunk
                         exit_live = True
+        else:
+            console.print("No songs yet! Add yours!", style=callout_style)
 
     @classmethod
     def get_by_artist(cls, artist):
