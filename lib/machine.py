@@ -25,11 +25,11 @@ def remove_song(singer_name):
 
 
 def load_song():
-    print("Loading next song.")
+    Song.load_next_song()
 
 
 def pause_song():
-    pass
+    print("Pausing song.")
 
 
 def view_queue():

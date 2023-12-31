@@ -4,6 +4,10 @@ from data.song_library import song_library
 
 from rich.console import Console
 from rich.table import Table
+from rich.live import Live
+
+# import textwrap
+import time
 
 console = Console()
 
@@ -13,6 +17,7 @@ callout_style = "color(2)"
 
 class Song:
     all = {}
+    current_song_id = None
 
     def __init__(self, title, artist, genre, lyrics, singer_id=None, id=None):
         self.id = id
@@ -103,7 +108,9 @@ class Song:
         rows = CURSOR.execute(sql).fetchall()
         console.print("Songs in queue:")
         for row in rows:
-            print(f"#{row[0]} Title: {row[1]}, Artist: {row[2]}, Sung by: {row[3]}")
+            console.print(
+                f"#{row[0]} Title: {row[1]}, Artist: {row[2]}, Sung by: {row[3]}"
+            )
         if not rows:
             console.print("No songs yet! Add yours!", style=callout_style)
 
@@ -126,7 +133,51 @@ class Song:
         values = (singer_id, int(song_id))
         CURSOR.execute(update_sql, values)
         CONN.commit()
-        print(f"Singer_id updated for song ID {song_id}.")
+        console.print(f"Singer_id updated for song ID {song_id}.")
+
+    @classmethod
+    def load_next_song(cls):
+        """Load the next song from the queue."""
+        # Check if there are any songs in the queue
+        sql = """
+            SELECT songs.id, songs.title, songs.artist, songs.lyrics, singers.name
+            FROM songs
+            INNER JOIN singers
+            ON songs.singer_id = singers.id
+            WHERE singer_id IS NOT NULL
+            ORDER BY songs.singer_id
+            LIMIT 1
+        """
+        result = CURSOR.execute(sql).fetchone()
+
+        if result:
+            song_id, title, artist, lyrics, singer_name = result
+            cls.current_song_id = song_id
+
+            chunks = lyrics.split("\n")
+
+            with Live(transient=True) as live:
+                live.update(
+                    f"Loading next song: {title} by {artist}, Sung by: {singer_name}"
+                )
+
+                for chunk in chunks:
+                    live.update(chunk)
+                    lines = chunk.splitlines()
+
+                    for i in range(len(lines)):
+                        highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
+                        display_text = "\n".join(
+                            lines[j] if j != i else highlighted_line
+                            for j in range(len(lines))
+                        )
+                        live.update(display_text)
+
+                        time.sleep(2)  # Adjust the sleep duration as needed
+
+                    # Sleep before moving to the next chunk
+                    time.sleep(1)
+                    live.update("")
 
     @classmethod
     def get_by_artist(cls, artist):

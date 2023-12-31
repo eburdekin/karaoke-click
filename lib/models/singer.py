@@ -1,5 +1,12 @@
 from .__init__ import CONN, CURSOR
 from .song import Song
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
+
+error_style = "color(9)"
+callout_style = "color(2)"
 
 
 class Singer:
@@ -77,9 +84,9 @@ class Singer:
         rows = CURSOR.execute(sql).fetchall()
         print("Currently in line:")
         for row in rows:
-            print(f"#{row[0]} Name: {row[1]}, Song: {row[2]}")
+            console.print(f"#{row[0]} Name: {row[1]}, Song: {row[2]}")
         if not rows:
-            print("Nobody, yet! Add your name!")
+            console.print("Nobody, yet! Add your name!", style=callout_style)
 
     @classmethod
     def get_singer_id(cls, name):

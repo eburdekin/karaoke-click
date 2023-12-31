@@ -4,6 +4,7 @@ from rich.prompt import Prompt, IntPrompt
 
 from machine import (
     load_song,
+    pause_song,
     add_song,
     remove_song,
     exit_program,
@@ -52,10 +53,10 @@ def main():
 
 def format_menu():
     options = [
-        ("1", "Load next song"),
-        ("2", "Pause current song"),
-        ("3", "Add song to queue"),
-        ("4", "Remove song from queue"),
+        ("1", "Add song to queue"),
+        ("2", "Remove song from queue"),
+        ("3", "Load next song"),
+        ("4", "Pause current song"),
         ("5", "View queue by song"),
         ("6", "View queue by singer"),
         ("7", "View all songs"),
@@ -78,13 +79,13 @@ def menu():
 
         choice = IntPrompt.ask("Enter selection (0-9)")
         if choice == 1:
-            load_next_song()
-        elif choice == 2:
-            pause_current_song()
-        elif choice == 3:
             add_song_command()
-        elif choice == 4:
+        elif choice == 2:
             remove_song_command()
+        elif choice == 3:
+            load_next_song()
+        elif choice == 4:
+            pause_current_song()
         elif choice == 5:
             view_queue_command()
         elif choice == 6:
@@ -101,17 +102,20 @@ def menu():
             exit_command()
             break
         else:
-            typer.echo("Invalid choice. Please enter a number between 0 and 9.")
+            console.print(
+                "Invalid choice. Please enter a number between 0 and 9.",
+                style="color(2)",
+            )
 
 
 @app.command()
 def load_next_song():
-    typer.echo("Loading next song.")
+    load_song()
 
 
 @app.command()
 def pause_current_song():
-    typer.echo("Pausing current song.")
+    pause_song()
 
 
 @app.command()
