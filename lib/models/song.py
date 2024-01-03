@@ -131,7 +131,7 @@ class Song:
 
         if current_singer_id[0] is not None:
             console.print(
-                "This song is already in the queue. Choose another!",
+                "This song is already in Your Playlist. Choose another!",
                 style=error_style,
             )
             return
@@ -139,7 +139,7 @@ class Song:
         # Update the singer_id if it's currently NULL
         update_sql = "UPDATE songs SET singer_id = ? WHERE id = ?"
         values = (singer_id, int(song_id))
-        console.print(f"Song #{song_id} added to queue!", style=update_style)
+        console.print(f"Song #{song_id} added to Your Playlist!", style=update_style)
         CURSOR.execute(update_sql, values)
         CONN.commit()
 
@@ -287,3 +287,23 @@ class Song:
         CURSOR.execute(sql, (song_id,))
         CONN.commit()
         console.print(f"Removed song #{song_id} from Song Library.", style=update_style)
+
+    @classmethod
+    def get_song_id(cls, singer_id):
+        """Get the song's ID based on the singer's ID"""
+        sql = "SELECT id FROM songs WHERE singer_id = ?"
+        result = CURSOR.execute(sql, (singer_id,)).fetchone()
+        return result[0] if result is not None else None
+
+    @classmethod
+    def remove_singer_id(cls, song_id):
+        """Set singer_id back to NULL for song based on song_id."""
+        sql = "UPDATE songs SET singer_id = NULL WHERE id = ?"
+        # needs to pass a tuple
+        values = (int(song_id),)
+
+        CURSOR.execute(sql, values)
+        CONN.commit()
+        console.print(
+            f"Song #{song_id} removed from Your Playlist.", style=update_style
+        )

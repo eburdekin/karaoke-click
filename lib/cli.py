@@ -1,6 +1,6 @@
 import typer
 from rich.console import Console
-from rich.prompt import Prompt, IntPrompt
+from rich.prompt import Prompt, IntPrompt, Confirm
 
 
 from machine import (
@@ -135,7 +135,7 @@ def add_song_command():
         song_id = Prompt.ask("Enter song ID")
 
         if song_id_exists_in_singers(song_id, CONN):
-            print("Song ID already exists. Please enter a different one.")
+            console.print("Song ID already exists. Please enter a different one.")
         else:
             break
 
@@ -145,7 +145,11 @@ def add_song_command():
 
 def remove_song_command():
     singer_name = Prompt.ask("Take this name off the list")
-    remove_song(singer_name)
+    confirmation = Confirm.ask(f"Confirm to remove {singer_name}")
+    if confirmation:
+        remove_song(singer_name)
+    else:
+        console.print("Canceled")
     # console.print(f"{singer_name} removed from queue!", style=update_style)
 
 
@@ -165,8 +169,9 @@ def song_id_exists_in_songs(song_id, conn):
 
 def remove_new_command():
     song_id = Prompt.ask("Enter song ID")
+    confirmation = Confirm.ask(f"Confirm to remove {song_id}")
 
-    if song_id_exists_in_songs(song_id, CONN):
+    if confirmation and song_id_exists_in_songs(song_id, CONN):
         remove_new(song_id)
     else:
         print("Song ID doesn't exist. Please enter a different one.")

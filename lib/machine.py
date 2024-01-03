@@ -16,8 +16,10 @@ def add_song(song_id, singer_name):
 
 
 def remove_song(singer_name):
+    singer_id = Singer.get_singer_id(singer_name)
+    song_id = Song.get_song_id(singer_id)
+    Song.remove_singer_id(song_id)
     Singer.remove_singer_by_name(singer_name)
-    # add methods to remove singer ID from song
 
 
 def load_song():
