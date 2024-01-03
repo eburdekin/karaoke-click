@@ -54,21 +54,28 @@ def main():
 
 def format_menu():
     options = [
-        ("1", "Add song to queue"),
-        ("2", "Remove song from queue"),
-        ("3", "Load next song"),
-        ("4", "View queue by song"),
-        ("5", "View queue by singer"),
-        ("6", "View all songs"),
-        ("7", "View songs by title"),
-        ("8", "View songs by artist"),
-        ("9", "View songs by genre"),
-        ("0", "Exit\n"),
+        ("1", "Add song to queue", "Queue"),
+        ("2", "Remove song from queue", "Queue"),
+        ("3", "Load next song", "Queue"),
+        ("4", "View queue by song", "Queue"),
+        ("5", "View queue by singer", "Queue"),
+        ("6", "View all songs", "Library"),
+        ("7", "View songs by title", "Library"),
+        ("8", "View songs by artist", "Library"),
+        ("9", "View songs by genre", "Library"),
+        ("10", "Add song to library", "Library"),
+        ("11", "Delete song from library", "Library"),
+        ("0", "Exit\n", "Exit"),
     ]
 
-    menu_text = "\n".join(
-        [f"{option}. {description}" for option, description in options]
-    )
+    menu_text = ""
+    current_header = ""
+    for option, description, header in options:
+        if header != current_header:
+            menu_text += f"\n[bold]{header}[/bold]\n"
+            current_header = header
+        menu_text += f"{option}. {description}\n"
+
     return menu_text
 
 

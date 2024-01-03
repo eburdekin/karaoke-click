@@ -173,9 +173,8 @@ class Song:
                             )
                             live.update(display_text)
 
-                            time.sleep(2)  # Adjust the sleep duration as needed
+                            time.sleep(2)
 
-                        # Sleep before moving to the next chunk
                         exit_live = True
         else:
             console.print("No songs yet! Add yours!", style=callout_style)
