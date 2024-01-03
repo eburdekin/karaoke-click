@@ -1,6 +1,13 @@
-from .song import Song, CONN, CURSOR, error_style, callout_style, update_style
-from rich.console import Console
-from rich.table import Table
+from .song import (
+    Song,
+    CONN,
+    CURSOR,
+    Console,
+    Table,
+    error_style,
+    callout_style,
+    update_style,
+)
 
 console = Console()
 
