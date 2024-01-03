@@ -98,13 +98,16 @@ def menu():
         elif choice == 5:
             view_all_songs()
         elif choice == 6:
-            title = Prompt.ask("Enter song title")
+            title_input = Prompt.ask("Enter song title")
+            title = title_input.title()
             get_songs_by_title(title)
         elif choice == 7:
-            artist = Prompt.ask("Enter artist name")
+            artist_input = Prompt.ask("Enter artist name")
+            artist = artist_input.title()
             get_songs_by_artist(artist)
         elif choice == 8:
-            genre = Prompt.ask("Enter genre")
+            genre_input = Prompt.ask("Enter genre")
+            genre = genre_input.title()
             get_songs_by_genre(genre)
         elif choice == 9:
             add_new_command()
