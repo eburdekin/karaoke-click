@@ -16,6 +16,8 @@ from machine import (
     exit_program,
 )
 
+from models.song import CONN, CURSOR
+
 app = typer.Typer()
 console = Console()
 
@@ -118,9 +120,22 @@ def menu():
             )
 
 
+def song_id_exists(song_id, conn):
+    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
+
+
 def add_song_command():
-    song_id = Prompt.ask("Enter song ID")
-    singer_name = Prompt.ask("Who is singing?")
+    while True:
+        song_id = Prompt.ask("Enter song ID: ")
+
+        if song_id_exists(song_id, CONN):
+            print("Song ID already exists. Please enter a different one.")
+        else:
+            break
+
+    singer_name = Prompt.ask("Who is singing? ")
     add_song(song_id, singer_name)
 
 
