@@ -4,7 +4,7 @@ song_library = [
         "artist": "Fiona Apple",
         "genre": "Alt",
         "lyrics": """
-Criminal - Fiona Apple*I've been a bad bad girl
+Criminal - Fiona Apple*Intro*Intro*I've been a bad bad girl
 I've been careless with my delicate man
 And its a sad sad world
 When a girl will break a boy
@@ -54,7 +54,7 @@ Because he's all I ever knew of love
         "artist": "The Chicks",
         "genre": "Country",
         "lyrics": """
-Goodbye Earl - The Chicks*Mary Anne and Wanda were the best of friends
+Goodbye Earl - The Chicks*Intro*Intro*Intro*Intro*Mary Anne and Wanda were the best of friends
 All through their high school days
 Both members of the 4H club, both active in the FFA
 After graduation
@@ -100,7 +100,7 @@ Well, hey hey hey
         "artist": "Blu Cantrell",
         "genre": "Pop",
         "lyrics": """
-Hit 'Em Up Style - Blu Cantrell*While he was schemeing
+Hit 'Em Up Style - Blu Cantrell*While he was scheming
 I was beamin in the Beamer just beamin
 Can't believe that I caught my man cheatin'
 So I found another way to make him pay for it all*So I went
@@ -191,7 +191,7 @@ If he messed up you gotta hit em up
         "artist": "Shaggy",
         "genre": "Pop Reggae",
         "lyrics": """
-Angel - Shaggy*Girl, you're my angel, you're my darling angel
+Angel - Shaggy*Intro*Intro*Girl, you're my angel, you're my darling angel
 Closer than my peeps you are to me, baby
 Shorty, you're my angel, you're my darling angel
 Girl, you're my friend when I'm in need, lady*Life is one big party when you're still young

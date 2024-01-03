@@ -182,6 +182,7 @@ class Song:
                 i = 0
 
                 for verse in verses:
+                    time.sleep(2)
                     live.update(verse)
                     lines = verse.splitlines()
                     exit_live = False
