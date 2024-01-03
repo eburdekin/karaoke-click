@@ -279,3 +279,11 @@ class Song:
 
         CONN.commit()
         console.print(f"{title} by {artist} added to Song Library.")
+
+    @classmethod
+    def remove_song_from_library(cls, song_id):
+        """Remove a song from library by ID"""
+        sql = "DELETE FROM songs WHERE id = ?"
+        CURSOR.execute(sql, (song_id,))
+        CONN.commit()
+        console.print(f"Removed song #{song_id} from Song Library.", style=update_style)

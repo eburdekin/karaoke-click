@@ -13,6 +13,7 @@ from machine import (
     get_songs_by_artist,
     get_songs_by_genre,
     add_new,
+    remove_new,
     exit_program,
 )
 
@@ -111,8 +112,8 @@ def menu():
             get_songs_by_genre(genre)
         elif choice == 9:
             add_new_command()
-        # elif choice == 10:
-        #     pass
+        elif choice == 10:
+            remove_new_command()
         elif choice == 0:
             exit_program()
             break
@@ -131,7 +132,7 @@ def song_id_exists(song_id, conn):
 
 def add_song_command():
     while True:
-        song_id = Prompt.ask("Enter song ID: ")
+        song_id = Prompt.ask("Enter song ID")
 
         if song_id_exists(song_id, CONN):
             print("Song ID already exists. Please enter a different one.")
@@ -154,6 +155,11 @@ def add_new_command():
     genre = Prompt.ask("Enter genre")
     lyrics = Prompt.ask("Enter lyrics")
     add_new(title, artist, genre, lyrics)
+
+
+def remove_new_command():
+    song_id = Prompt.ask("Enter song ID")
+    remove_new(song_id)
 
 
 if __name__ == "__main__":

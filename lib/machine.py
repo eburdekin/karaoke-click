@@ -48,6 +48,10 @@ def add_new(title, artist, genre, lyrics):
     Song.add_new_song_to_library(title, artist, genre, lyrics)
 
 
+def remove_new(song_id):
+    Song.remove_song_from_library(song_id)
+
+
 def exit_program():
     print("Goodbye!")
     exit()
