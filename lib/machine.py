@@ -42,7 +42,7 @@ def view_up_next():
 
 
 # Methods for Songs
-def get_all_songs():
+def view_all_songs():
     Song.get_all()
 
 
@@ -56,6 +56,10 @@ def get_songs_by_artist(artist):
 
 def get_songs_by_genre(genre):
     Song.get_by_genre(genre)
+
+
+def add_new(title, artist, genre, lyrics):
+    Song.add_new_song_to_library(title, artist, genre, lyrics)
 
 
 def exit_program():

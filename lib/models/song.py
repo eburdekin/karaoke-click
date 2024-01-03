@@ -111,9 +111,7 @@ class Song:
             console.print("No songs yet! Add yours!", style=callout_style)
 
         if rows:
-            console.print("Songs in queue:")
-
-            table = Table(title=f"Next up by song")
+            table = Table(title=f"Next Up")
             table.add_column("ID", justify="right", style="cyan")
             table.add_column("Title", style="magenta")
             table.add_column("Artist", style="green")
@@ -159,6 +157,11 @@ class Song:
             LIMIT 1
         """
         result = CURSOR.execute(sql).fetchone()
+
+        if not result:
+            console.print(
+                "No songs in your playlist yet! Add your pick!", style=callout_style
+            )
 
         if result:
             song_id, title, artist, lyrics, singer_name = result
@@ -207,7 +210,7 @@ class Song:
 
         rows = CURSOR.execute(sql, (title,)).fetchall()
 
-        table = Table(title=f"Songs with title: {title}")
+        table = Table()
         table.add_column("ID", justify="right", style="cyan")
         table.add_column("Title", style="magenta")
         table.add_column("Artist", style="green")
@@ -229,7 +232,7 @@ class Song:
 
         rows = CURSOR.execute(sql, (artist,)).fetchall()
 
-        table = Table(title=f"Songs by: {artist}")
+        table = Table()
         table.add_column("ID", justify="right", style="cyan")
         table.add_column("Title", style="magenta")
         table.add_column("Artist", style="green")
@@ -251,7 +254,7 @@ class Song:
 
         rows = CURSOR.execute(sql, (genre,)).fetchall()
 
-        table = Table(title=f"Songs in: {genre}")
+        table = Table()
         table.add_column("ID", justify="right", style="cyan")
         table.add_column("Title", style="magenta")
         table.add_column("Artist", style="green")
@@ -261,3 +264,16 @@ class Song:
             table.add_row(str(row[0]), row[1], row[2], row[3])
 
         console.print(table)
+
+    @classmethod
+    def add_new_song_to_library(cls, title, artist, genre, lyrics):
+        sql = """
+            INSERT INTO songs (title, artist, genre, lyrics, singer_id)
+            VALUES (?, ?, ?, ?, NULL)
+        """
+
+        values = (title, artist, genre, lyrics)
+        CURSOR.execute(sql, values)
+
+        CONN.commit()
+        console.print(f"{title} by {artist} added to Song Library.")
