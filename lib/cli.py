@@ -124,7 +124,7 @@ def menu():
             )
 
 
-def song_id_exists(song_id, conn):
+def song_id_exists_in_singers(song_id, conn):
     CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
     count = CURSOR.fetchone()[0]
     return count > 0
@@ -134,7 +134,7 @@ def add_song_command():
     while True:
         song_id = Prompt.ask("Enter song ID")
 
-        if song_id_exists(song_id, CONN):
+        if song_id_exists_in_singers(song_id, CONN):
             print("Song ID already exists. Please enter a different one.")
         else:
             break
@@ -157,9 +157,19 @@ def add_new_command():
     add_new(title, artist, genre, lyrics)
 
 
+def song_id_exists_in_songs(song_id, conn):
+    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
+
+
 def remove_new_command():
     song_id = Prompt.ask("Enter song ID")
-    remove_new(song_id)
+
+    if song_id_exists_in_songs(song_id, CONN):
+        remove_new(song_id)
+    else:
+        print("Song ID doesn't exist. Please enter a different one.")
 
 
 if __name__ == "__main__":
