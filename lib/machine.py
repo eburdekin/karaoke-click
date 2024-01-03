@@ -14,6 +14,7 @@ class KaraokeMachine:
 
 # Methods for Queue
 def add_song(song_id, singer_name):
+    # NEED TO FIX IT SO SONG'S SINGER_ID IS CHECKED BEFORE THE SINGER IS ADDED TO SINGER LIST
     Singer.create_singer(singer_name, song_id)
     singer_id = Singer.get_singer_id(singer_name)
     Song.update_singer_id(song_id, singer_id)

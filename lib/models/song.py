@@ -12,6 +12,7 @@ console = Console()
 
 error_style = "color(9)"
 callout_style = "color(2)"
+update_style = "color(6)"
 
 
 class Song:
@@ -130,6 +131,7 @@ class Song:
         # Update the singer_id if it's currently NULL
         update_sql = "UPDATE songs SET singer_id = ? WHERE id = ?"
         values = (singer_id, int(song_id))
+        console.print(f"Song #{song_id} added to queue!", style=update_style)
         CURSOR.execute(update_sql, values)
         CONN.commit()
 
@@ -176,8 +178,13 @@ class Song:
                             time.sleep(2)
 
                         exit_live = True
-        else:
+            # else:
             console.print("No songs yet! Add yours!", style=callout_style)
+
+    @classmethod
+    def exit_loop(cls):
+        # Add any necessary cleanup code here
+        pass
 
     @classmethod
     def get_by_title(cls, title):

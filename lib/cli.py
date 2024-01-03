@@ -20,6 +20,7 @@ app = typer.Typer()
 console = Console()
 
 update_style = "color(6)"
+pink = "color(5)"
 
 
 def display_title_card():
@@ -82,7 +83,7 @@ def format_menu():
 @app.command()
 def menu():
     while True:
-        console.print("\nChoose an option:", style="color(5)")
+        console.print("\nChoose an option:", style=pink)
         console.print(format_menu())
 
         choice = IntPrompt.ask("Enter selection (0-9)")
@@ -122,7 +123,6 @@ def add_song_command():
     song_id = Prompt.ask("Enter song ID")
     singer_name = Prompt.ask("Who is singing?")
     add_song(song_id, singer_name)
-    console.print(f"Song #{song_id} added to queue!", style=update_style)
 
 
 @app.command()

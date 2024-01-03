@@ -7,6 +7,7 @@ console = Console()
 
 error_style = "color(9)"
 callout_style = "color(2)"
+update_style = "color(6)"
 
 
 class Singer:
@@ -66,11 +67,12 @@ class Singer:
             sql = "DELETE FROM singers WHERE id = ?"
             CURSOR.execute(sql, (singer_id,))
             CONN.commit()
-
+            console.print(f"Removed {name} from the queue.", style=update_style)
             deleted_singer = cls(name, id=singer_id)
             return deleted_singer
+
         else:
-            print(f"No singer found with the name: {name}")
+            console.print(f"No singer found with the name: {name}", style=error_style)
             return None
 
     @classmethod
