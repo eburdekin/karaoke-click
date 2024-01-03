@@ -1,11 +1,8 @@
 from .__init__ import CONN, CURSOR
-
 from data.song_library import song_library
-
 from rich.console import Console
 from rich.table import Table
 from rich.live import Live
-
 import time
 
 console = Console()

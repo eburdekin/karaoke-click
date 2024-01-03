@@ -1,5 +1,5 @@
-from .__init__ import CONN, CURSOR
-from .song import Song
+# from .__init__ import CONN, CURSOR
+from .song import Song, CONN, CURSOR
 from rich.console import Console
 from rich.table import Table
 
