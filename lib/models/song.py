@@ -165,30 +165,50 @@ class Song:
             song_id, title, artist, lyrics, singer_name = result
             cls.current_song_id = song_id
 
-            chunks = lyrics.split("\n")
+            # CODE FOR SHOWING ALL LYRICS, LOOPING THROUGH EACH LINE. CUTS OFF AT THE BOTTOM
 
-            with Live(transient=True) as live:
+            lines = lyrics.splitlines()
+            # chunks = lyrics.split("\n")
+
+            with Live(transient=True, screen=True) as live:
                 live.update(
                     f"Loading next song: {title} by {artist}, Sung by: {singer_name}"
                 )
 
-                for chunk in chunks:
-                    live.update(chunk)
-                    lines = chunk.splitlines()
-                    exit_live = False
+                exit_live = False
+                i = 0
 
-                    while not exit_live:
-                        for i in range(len(lines)):
-                            highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
-                            display_text = "\n".join(
-                                lines[j] if j != i else highlighted_line
-                                for j in range(len(lines))
-                            )
-                            live.update(display_text)
+                while not exit_live:
+                    for i in range(len(lines)):
+                        highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
+                        display_text = "\n".join(
+                            lines[j] if j != i else highlighted_line
+                            for j in range(len(lines))
+                        )
+                        live.update(display_text)
 
-                            time.sleep(2)
+                        time.sleep(2)  # Adjust the sleep duration as needed
 
-                        exit_live = True
+                    exit_live = True
+
+            # CODE FOR SHOWING ONE LINE AT A TIME
+            # for chunk in chunks:
+            #     live.update(chunk)
+            #     lines = chunk.splitlines()
+            #     exit_live = False
+
+            #     while not exit_live:
+            #         for i in range(len(lines)):
+            #             highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
+            #             display_text = "\n".join(
+            #                 lines[j] if j != i else highlighted_line
+            #                 for j in range(len(lines))
+            #             )
+            #             live.update(display_text)
+
+            #             time.sleep(2)
+
+            #         exit_live = True
 
     @classmethod
     def get_by_title(cls, title):
