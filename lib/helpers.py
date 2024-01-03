@@ -3,12 +3,6 @@ from models.singer import Singer
 from data.song_library import song_library
 
 
-class KaraokeMachine:
-    def __init__(self):
-        self.queue = queue
-
-
-# Methods for Queue
 def add_song(song_id, singer_name):
     Singer.create_singer(singer_name, song_id)
     singer_id = Singer.get_singer_id(singer_name)

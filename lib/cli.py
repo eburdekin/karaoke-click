@@ -3,7 +3,7 @@ from rich.console import Console
 from rich.prompt import Prompt, IntPrompt, Confirm
 
 
-from machine import (
+from helpers import (
     add_song,
     remove_song,
     load_song,
