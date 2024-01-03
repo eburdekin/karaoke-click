@@ -15,8 +15,8 @@ Requirements
 
 Installation Steps
 
-- Enter pipenv install && pipenv shell
-- Enter python lib/cli.py
+- Enter `pipenv install && pipenv shell`
+- Enter `python lib/cli.py`
 
 ## Features
 
