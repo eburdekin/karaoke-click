@@ -104,7 +104,9 @@ class Song:
         rows = CURSOR.execute(sql).fetchall()
 
         if not rows:
-            console.print("No songs yet! Add yours!", style=callout_style)
+            console.print(
+                "No songs in your playlist yet! Add your pick!", style=callout_style
+            )
 
         if rows:
             table = Table(title=f"Next Up")
@@ -187,8 +189,6 @@ class Song:
                             time.sleep(2)
 
                         exit_live = True
-            # else:
-            console.print("No songs yet! Add yours!", style=callout_style)
 
     @classmethod
     def get_by_title(cls, title):

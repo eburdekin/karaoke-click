@@ -43,18 +43,30 @@ class Singer:
     @classmethod
     def create_singer(cls, name, song_id):
         """Instantiate a new singer, assign an ID, and insert into the database."""
+        # Check if the song_id is already associated with a singer
+        select_sql = """
+            SELECT id FROM singers WHERE song_id = ?
+        """
+        select_values = (song_id,)
+        existing_singer_ids = CURSOR.execute(select_sql, select_values).fetchall()
+
+        if existing_singer_ids:
+            console.print(f"A singer is already associated with song #{song_id}")
+            return None
+
+        # If not exists, create a new singer, insert into the database, and return the singer object
         singer = cls(name)
         cls.insert_singer_into_db(singer, song_id)
         return singer
 
     @classmethod
     def insert_singer_into_db(cls, singer, song_id):
-        """Insert singer data into the database."""
-        sql = """
+        # Insert the singer data into the database
+        insert_sql = """
             INSERT INTO singers (name, song_id) VALUES (?, ?)
         """
-        values = (singer.name, song_id)
-        CURSOR.execute(sql, values)
+        insert_values = (singer.name, song_id)
+        CURSOR.execute(insert_sql, insert_values)
         CONN.commit()
 
     @classmethod
