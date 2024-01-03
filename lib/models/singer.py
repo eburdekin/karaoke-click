@@ -1,13 +1,8 @@
-# from .__init__ import CONN, CURSOR
-from .song import Song, CONN, CURSOR
+from .song import Song, CONN, CURSOR, error_style, callout_style, update_style
 from rich.console import Console
 from rich.table import Table
 
 console = Console()
-
-error_style = "color(9)"
-callout_style = "color(2)"
-update_style = "color(6)"
 
 
 class Singer:
