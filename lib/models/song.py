@@ -31,7 +31,6 @@ class Song:
     def __repr__(self):
         return f"<Song {self.id}: {self.title}, {self.singer}>"
 
-    # CRUD methods for Song
     @classmethod
     def create_table(cls):
         sql = """
@@ -193,11 +192,6 @@ class Song:
                         exit_live = True
             # else:
             console.print("No songs yet! Add yours!", style=callout_style)
-
-    @classmethod
-    def exit_loop(cls):
-        # Add any necessary cleanup code here
-        pass
 
     @classmethod
     def get_by_title(cls, title):

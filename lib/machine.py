@@ -7,9 +7,11 @@ class KaraokeMachine:
     def __init__(self):
         self.queue = queue
 
-    Song.create_table()
-    Song.add_song_library()
-    Singer.create_table()
+    # need to figure out how to initialize the table for user
+
+    # Song.create_table()
+    # Song.add_song_library()
+    # Singer.create_table()
 
 
 # Methods for Queue
@@ -29,19 +31,10 @@ def load_song():
     Song.load_next_song()
 
 
-def pause_song():
-    print("Pausing song.")
-
-
 def view_queue():
     Song.get_queued()
 
 
-def view_up_next():
-    Singer.view()
-
-
-# Methods for Songs
 def view_all_songs():
     Song.get_all()
 
@@ -64,6 +57,6 @@ def add_new(title, artist, genre, lyrics):
 
 def exit_program():
     print("Goodbye!")
-    Song.drop_table()
-    Singer.drop_table()
+    # Song.drop_table()
+    # Singer.drop_table()
     exit()

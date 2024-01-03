@@ -63,7 +63,6 @@ class Singer:
         singer_id = cls.get_singer_id(name)
 
         if singer_id is not None:
-            # Remove the singer from the database
             sql = "DELETE FROM singers WHERE id = ?"
             CURSOR.execute(sql, (singer_id,))
             CONN.commit()
@@ -74,30 +73,6 @@ class Singer:
         else:
             console.print(f"No singer found with the name: {name}", style=error_style)
             return None
-
-    # @classmethod
-    # def view(cls):
-    #     sql = """
-    #     SELECT singers.id, singers.name, songs.title
-    #     FROM singers
-    #     INNER JOIN songs
-    #     ON singers.song_id = songs.id
-    #     """
-    #     rows = CURSOR.execute(sql).fetchall()
-    #     if not rows:
-    #         console.print("Nobody, yet! Add your name!", style=callout_style)
-
-    #     if rows:
-    #         table = Table(title=f"Next up by singer")
-    #         table.add_column("ID", justify="right", style="cyan")
-    #         table.add_column("Title", style="magenta")
-    #         table.add_column("Artist", style="green")
-    #         table.add_column("Who's Singing?", style="yellow")
-
-    #         for row in rows:
-    #             table.add_row(str(row[0]), row[1], row[2], row[3])
-
-    #         console.print(table)
 
     @classmethod
     def get_singer_id(cls, name):
