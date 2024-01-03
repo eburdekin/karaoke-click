@@ -106,13 +106,23 @@ class Song:
         """
 
         rows = CURSOR.execute(sql).fetchall()
-        console.print("Songs in queue:")
-        for row in rows:
-            console.print(
-                f"#{row[0]} Title: {row[1]}, Artist: {row[2]}, Sung by: {row[3]}"
-            )
+
         if not rows:
             console.print("No songs yet! Add yours!", style=callout_style)
+
+        if rows:
+            console.print("Songs in queue:")
+
+            table = Table(title=f"Next up by song")
+            table.add_column("ID", justify="right", style="cyan")
+            table.add_column("Title", style="magenta")
+            table.add_column("Artist", style="green")
+            table.add_column("Who's Singing?", style="yellow")
+
+            for row in rows:
+                table.add_row(str(row[0]), row[1], row[2], row[3])
+
+            console.print(table)
 
     @classmethod
     def update_singer_id(cls, song_id, singer_id):

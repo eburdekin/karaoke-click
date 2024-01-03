@@ -44,7 +44,7 @@ def display_title_card():
    
 {"*" * 58}"""
     )
-    console.print("          a Python CLI project by @eburdekin", style="bold color(6)")
+    console.print("          a Python CLI project by @eburdekin", style="color(6)")
 
 
 @app.callback(invoke_without_command=True)
@@ -55,17 +55,17 @@ def main():
 
 def format_menu():
     options = [
-        ("1", "Add song to queue", "Queue"),
-        ("2", "Remove song from queue", "Queue"),
-        ("3", "Load next song", "Queue"),
-        ("4", "View queue by song", "Queue"),
-        ("5", "View queue by singer", "Queue"),
-        ("6", "View all songs", "Library"),
-        ("7", "View songs by title", "Library"),
-        ("8", "View songs by artist", "Library"),
-        ("9", "View songs by genre", "Library"),
-        ("10", "Add song to library", "Library"),
-        ("11", "Delete song from library", "Library"),
+        ("1", "Add song", "Your Playlist"),
+        ("2", "Remove song", "Your Playlist"),
+        ("3", "Load next song", "Your Playlist"),
+        ("4", "Next up by song", "Your Playlist"),
+        ("5", "Next up by singer", "Your Playlist"),
+        ("a", "View all", "Song Library"),
+        ("b", "View by title", "Song Library"),
+        ("c", "View by artist", "Song Library"),
+        ("d", "View by genre", "Song Library"),
+        ("e", "Add new song", "Song Library"),
+        ("f", "Delete song", "Song Library"),
         ("0", "Exit\n", "Exit"),
     ]
 
@@ -73,9 +73,9 @@ def format_menu():
     current_header = ""
     for option, description, header in options:
         if header != current_header:
-            menu_text += f"\n[bold]{header}[/bold]\n"
+            menu_text += f"\n[color(5)]{header}[/color(5)]\n"
             current_header = header
-        menu_text += f"{option}. {description}\n"
+        menu_text += f"[bold color(6)]{option}[/bold color(6)]. {description}\n"
 
     return menu_text
 
@@ -83,7 +83,6 @@ def format_menu():
 @app.command()
 def menu():
     while True:
-        console.print("\nChoose an option:", style=pink)
         console.print(format_menu())
 
         choice = IntPrompt.ask("Enter selection (0-9)")
