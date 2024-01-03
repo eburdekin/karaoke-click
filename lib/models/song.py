@@ -165,10 +165,7 @@ class Song:
             song_id, title, artist, lyrics, singer_name = result
             cls.current_song_id = song_id
 
-            # CODE FOR SHOWING ALL LYRICS, LOOPING THROUGH EACH LINE. CUTS OFF AT THE BOTTOM
-
-            lines = lyrics.splitlines()
-            # chunks = lyrics.split("\n")
+            verses = lyrics.split("*")
 
             with Live(transient=True, screen=True) as live:
                 live.update(
@@ -178,37 +175,23 @@ class Song:
                 exit_live = False
                 i = 0
 
-                while not exit_live:
-                    for i in range(len(lines)):
-                        highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
-                        display_text = "\n".join(
-                            lines[j] if j != i else highlighted_line
-                            for j in range(len(lines))
-                        )
-                        live.update(display_text)
+                for verse in verses:
+                    live.update(verse)
+                    lines = verse.splitlines()
+                    exit_live = False
 
-                        time.sleep(2)  # Adjust the sleep duration as needed
+                    while not exit_live:
+                        for i in range(len(lines)):
+                            highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
+                            display_text = "\n".join(
+                                lines[j] if j != i else highlighted_line
+                                for j in range(len(lines))
+                            )
+                            live.update(display_text)
 
-                    exit_live = True
+                            time.sleep(2)
 
-            # CODE FOR SHOWING ONE LINE AT A TIME
-            # for chunk in chunks:
-            #     live.update(chunk)
-            #     lines = chunk.splitlines()
-            #     exit_live = False
-
-            #     while not exit_live:
-            #         for i in range(len(lines)):
-            #             highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
-            #             display_text = "\n".join(
-            #                 lines[j] if j != i else highlighted_line
-            #                 for j in range(len(lines))
-            #             )
-            #             live.update(display_text)
-
-            #             time.sleep(2)
-
-            #         exit_live = True
+                        exit_live = True
 
     @classmethod
     def get_by_title(cls, title):

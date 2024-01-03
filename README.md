@@ -1,6 +1,6 @@
 # Karaoke Machine
 
-### a Python CLI project by Eileen Burdekin
+a Python CLI project by Eileen Burdekin
 
 ## Overview
 
@@ -20,5 +20,5 @@ Installation Steps
 
 ## Features
 
-- SQLite database to store karaoke machine state
-- CLI menu built with Typer
+- SQLite database to store Your Playlist and Song Library
+- CLI menu built with Typer functionality & Rich styling

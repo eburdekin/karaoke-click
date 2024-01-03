@@ -7,16 +7,9 @@ class KaraokeMachine:
     def __init__(self):
         self.queue = queue
 
-    # need to figure out how to initialize the table for user
-
-    # Song.create_table()
-    # Song.add_song_library()
-    # Singer.create_table()
-
 
 # Methods for Queue
 def add_song(song_id, singer_name):
-    # NEED TO FIX IT SO SONG'S SINGER_ID IS CHECKED BEFORE THE SINGER IS ADDED TO SINGER LIST
     Singer.create_singer(singer_name, song_id)
     singer_id = Singer.get_singer_id(singer_name)
     Song.update_singer_id(song_id, singer_id)
@@ -57,6 +50,4 @@ def add_new(title, artist, genre, lyrics):
 
 def exit_program():
     print("Goodbye!")
-    # Song.drop_table()
-    # Singer.drop_table()
     exit()
