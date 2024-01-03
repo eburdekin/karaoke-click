@@ -2,6 +2,7 @@ import typer
 from rich.console import Console
 from rich.prompt import Prompt, IntPrompt
 
+
 from machine import (
     add_song,
     remove_song,

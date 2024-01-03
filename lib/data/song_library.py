@@ -47,6 +47,7 @@ And I need to be redeemed
 To the one I've sinned against
 Because he's all I ever knew of love
 """,
+        "url": "https://www.youtube.com/watch?v=9C7xElWhDgQ",
     },
     {
         "title": "Goodbye Earl",
@@ -92,6 +93,7 @@ Ooh hey hey hey
 Ah hey hey hey
 Well, hey hey hey
 """,
+        "url": "https://www.youtube.com/watch?v=1BZG7gEXQRg",
     },
     {
         "title": "Hit 'Em Up Style",
@@ -182,6 +184,7 @@ From the crib to the ride and the clothes
 So you better let him know that
 If he messed up you gotta hit em up
 """,
+        "url": "https://www.youtube.com/watch?v=1gzVhWEIAu0",
     },
     {
         "title": "Angel",
@@ -232,5 +235,6 @@ Closer than my peeps you are to me, baby
 Shorty, you're my angel, you're my darling angel
 Girl, you're my friend when I'm in need, lady
         """,
+        "url": "https://www.youtube.com/watch?v=6wfWu6F9aeo",
     },
 ]

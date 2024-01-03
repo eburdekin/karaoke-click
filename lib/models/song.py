@@ -37,6 +37,7 @@ class Song:
             artist TEXT,
             genre TEXT,
             lyrics TEXT,
+            url TEXT,
             singer_id INTEGER
             )
         """
@@ -46,8 +47,8 @@ class Song:
     @classmethod
     def add_song_library(cls):
         sql = """
-            INSERT INTO songs (title, artist, genre, lyrics, singer_id)
-            VALUES (?, ?, ?, ?, NULL)
+            INSERT INTO songs (title, artist, genre, lyrics, url, singer_id)
+            VALUES (?, ?, ?, ?, ?, NULL)
         """
 
         for song in song_library:
@@ -56,6 +57,7 @@ class Song:
                 song["artist"],
                 song["genre"],
                 song["lyrics"],
+                song["url"],
             )
             CURSOR.execute(sql, values)
 
@@ -146,7 +148,7 @@ class Song:
         """Load the next song from the queue."""
         # Check if there are any songs in the queue
         sql = """
-            SELECT songs.id, songs.title, songs.artist, songs.lyrics, singers.name
+            SELECT songs.id, songs.title, songs.artist, songs.lyrics, songs.url, singers.name
             FROM songs
             INNER JOIN singers
             ON songs.singer_id = singers.id
@@ -162,8 +164,12 @@ class Song:
             )
 
         if result:
-            song_id, title, artist, lyrics, singer_name = result
+            song_id, title, artist, lyrics, url, singer_name = result
             cls.current_song_id = song_id
+
+            import webbrowser
+
+            webbrowser.open(url)
 
             verses = lyrics.split("*")
 
@@ -266,6 +272,7 @@ class Song:
             VALUES (?, ?, ?, ?, NULL)
         """
 
+        # currently can't add multi-line lyrics
         values = (title, artist, genre, lyrics)
         CURSOR.execute(sql, values)
 

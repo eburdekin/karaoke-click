@@ -22,3 +22,5 @@ Installation Steps
 
 - SQLite database to store Your Playlist and Song Library
 - CLI menu built with Typer functionality & Rich styling
+- Scrolling lyrics via Rich Live Display
+- Backup instrumentals load via YouTube using YouTube Data API v3
