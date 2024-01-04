@@ -17,10 +17,10 @@ update_style = "color(6)"
 
 def print_song_table():
     table = Table(show_lines=True)
-    table.add_column("ID", justify="right", style="cyan")
-    table.add_column("Title", style="magenta")
-    table.add_column("Artist", style="green")
-    table.add_column("Genre", style="yellow")
+    table.add_column("ID", justify="right", style="cyan", width=3)
+    table.add_column("Title", style="magenta", width=26)
+    table.add_column("Artist", style="green", width=18)
+    table.add_column("Genre", style="yellow", width=12)
     return table
 
 
@@ -39,7 +39,7 @@ class Song:
         type(self).ALL.append(self)
 
     def __repr__(self):
-        return f"<Song {self._id}: {self.title}, {self.artist}>"
+        return f"<Song {self._id}: {self.title} - {self.artist}>"
 
     # Property setters
 
