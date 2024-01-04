@@ -1,3 +1,5 @@
+# Methods for SQL table singers
+
 from .song import (
     Song,
     CONN,

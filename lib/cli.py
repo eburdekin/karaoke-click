@@ -137,32 +137,6 @@ def menu():
 # Handle user input for editing Your Playlist
 
 
-def add_song_to_playlist_command():
-    song_id = Prompt.ask("Enter song ID to add")
-
-    if song_id_exists_in_singers(song_id):
-        console.print(
-            "Song ID already exists. Please enter a different one.",
-            style=error_style,
-        )
-    else:
-        singer_name = Prompt.ask("Who is singing?")
-        add_song_to_playlist(song_id, singer_name)
-
-
-def remove_song_from_playlist_command():
-    singer_name = Prompt.ask("Take this name off the list")
-    confirmation = Confirm.ask(f"Confirm to remove {singer_name}")
-
-    if confirmation:
-        remove_song_from_playlist(singer_name)
-    else:
-        console.print("Canceled", style=update_style)
-
-
-# Handle user input for editing Song Library
-
-
 def validate_non_empty(value):
     return value.strip() != "", "Input cannot be blank."
 
@@ -182,6 +156,32 @@ def prompt_with_validation(prompt_text, validation_function):
             return user_input
         else:
             print(error_message)
+
+
+def add_song_to_playlist_command():
+    song_id = prompt_with_validation("Enter song ID to add", validate_non_empty)
+
+    if song_id_exists_in_singers(song_id):
+        console.print(
+            "Song ID already exists. Please enter a different one.",
+            style=error_style,
+        )
+    else:
+        singer_name = prompt_with_validation("Who is singing?", validate_non_empty)
+        add_song_to_playlist(song_id, singer_name)
+
+
+def remove_song_from_playlist_command():
+    singer_name = Prompt.ask("Take this name off the list")
+    confirmation = Confirm.ask(f"Confirm to remove {singer_name}")
+
+    if confirmation:
+        remove_song_from_playlist(singer_name)
+    else:
+        console.print("Canceled", style=update_style)
+
+
+# Handle user input for editing Song Library
 
 
 def add_song_to_library_command():

@@ -1,3 +1,5 @@
+# Methods for SQL table songs
+
 from .__init__ import CONN, CURSOR
 from data.song_library import song_library
 from rich.console import Console
@@ -11,6 +13,15 @@ console = Console()
 error_style = "color(9)"
 callout_style = "color(2)"
 update_style = "color(6)"
+
+
+def print_song_table():
+    table = Table(show_lines=True)
+    table.add_column("ID", justify="right", style="cyan")
+    table.add_column("Title", style="magenta")
+    table.add_column("Artist", style="green")
+    table.add_column("Genre", style="yellow")
+    return table
 
 
 class Song:
@@ -89,6 +100,14 @@ class Song:
 
     # CRUD methods for Song Library
 
+    # @classmethod
+    # def execute_sql(cls, sql, values=None):
+    #     # Common method to execute SQL queries
+    #     if values:
+    #         return cls.cursor.execute(sql, values)
+    #     else:
+    #         return cls.cursor.execute(sql)
+
     @classmethod
     def create_table(cls):
         sql = """
@@ -154,11 +173,13 @@ class Song:
 
         rows = CURSOR.execute(sql).fetchall()
 
-        table = Table(title="All Songs")
-        table.add_column("ID", justify="right", style="cyan")
-        table.add_column("Title", style="magenta")
-        table.add_column("Artist", style="green")
-        table.add_column("Genre", style="yellow")
+        # table = Table(title="All Songs", show_lines=True)
+        # table.add_column("ID", justify="right", style="cyan")
+        # table.add_column("Title", style="magenta")
+        # table.add_column("Artist", style="green")
+        # table.add_column("Genre", style="yellow")
+
+        table = print_song_table()
 
         for row in rows:
             table.add_row(str(row[0]), row[1], row[2], row[3])
@@ -179,11 +200,7 @@ class Song:
         if not rows:
             console.print(f"No songs found with title {title}.", style=error_style)
         else:
-            table = Table()
-            table.add_column("ID", justify="right", style="cyan")
-            table.add_column("Title", style="magenta")
-            table.add_column("Artist", style="green")
-            table.add_column("Genre", style="yellow")
+            table = print_song_table()
 
             for row in rows:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
@@ -204,11 +221,7 @@ class Song:
         if not rows:
             console.print(f"No songs found by artist {artist}.", style=error_style)
         else:
-            table = Table()
-            table.add_column("ID", justify="right", style="cyan")
-            table.add_column("Title", style="magenta")
-            table.add_column("Artist", style="green")
-            table.add_column("Genre", style="yellow")
+            table = print_song_table()
 
             for row in rows:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
@@ -229,11 +242,7 @@ class Song:
         if not rows:
             console.print(f"No songs found in the {genre} genre.", style=error_style)
         else:
-            table = Table()
-            table.add_column("ID", justify="right", style="cyan")
-            table.add_column("Title", style="magenta")
-            table.add_column("Artist", style="green")
-            table.add_column("Genre", style="yellow")
+            table = print_song_table()
 
             for row in rows:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
@@ -254,11 +263,7 @@ class Song:
         if not rows:
             console.print(f"No song found with id #{_id}", style=error_style)
         else:
-            table = Table()
-            table.add_column("ID", justify="right", style="cyan")
-            table.add_column("Title", style="magenta")
-            table.add_column("Artist", style="green")
-            table.add_column("Genre", style="yellow")
+            table = print_song_table()
 
             for row in rows:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
@@ -308,11 +313,7 @@ class Song:
             )
 
         if rows:
-            table = Table(title=f"Next Up")
-            table.add_column("ID", justify="right", style="cyan")
-            table.add_column("Title", style="magenta")
-            table.add_column("Artist", style="green")
-            table.add_column("Who's Singing?", style="yellow")
+            table = print_song_table()
 
             for row in rows:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
@@ -397,7 +398,7 @@ class Song:
 
             verses = lyrics.split("*")
 
-            with Live(transient=True, screen=True) as live:
+            with Live(transient=True, screen=True, console=console) as live:
                 live.update(
                     f"Loading next song: {title} by {artist}, Sung by: {singer_name}"
                 )
