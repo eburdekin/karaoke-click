@@ -121,3 +121,9 @@ class Singer:
         """
         CURSOR.execute(sql)
         CONN.commit()
+
+    @classmethod
+    def song_id_exists_in_singers(song_id):
+        CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
+        count = CURSOR.fetchone()[0]
+        return count > 0

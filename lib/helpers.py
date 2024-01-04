@@ -1,6 +1,6 @@
 # Helper functions for cli.py, accessing Song/Singer classes
 
-from models.song import Song, CONN, CURSOR
+from models.song import Song
 from models.singer import Singer
 from data.song_library import song_library
 
@@ -25,30 +25,30 @@ def load_song():
 
 
 def view_all_playlist():
-    Song.get_queued()
+    Song.get_all_playlist()
 
 
 # Song Library
 
 
 def view_all_library():
-    Song.get_all()
-
-
-def view_library_by_id(_id):
-    Song.get_by_id(_id)
+    Song.get_all_library()
 
 
 def view_library_by_title(title):
-    Song.get_by_title(title)
+    Song.get_library_by_title(title)
 
 
 def view_library_by_artist(artist):
-    Song.get_by_artist(artist)
+    Song.get_library_by_artist(artist)
 
 
 def view_library_by_genre(genre):
-    Song.get_by_genre(genre)
+    Song.get_library_by_genre(genre)
+
+
+def view_library_by_id(_id):
+    Song.get_library_by_id(_id)
 
 
 def add_song_to_library(title, artist, genre, lyrics):
@@ -65,18 +65,3 @@ def remove_song_from_library(song_id):
 def exit_program():
     print("Goodbye!")
     exit()
-
-
-# SQL validation - move to Song/Singer models
-
-
-def song_id_exists_in_singers(song_id):
-    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
-    count = CURSOR.fetchone()[0]
-    return count > 0
-
-
-def song_id_exists_in_songs(song_id):
-    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
-    count = CURSOR.fetchone()[0]
-    return count > 0

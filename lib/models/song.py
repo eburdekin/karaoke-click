@@ -3,6 +3,7 @@ from data.song_library import song_library
 from rich.console import Console
 from rich.table import Table
 from rich.live import Live
+import webbrowser
 import time
 
 console = Console()
@@ -132,7 +133,7 @@ class Song:
         CONN.commit()
 
     @classmethod
-    def get_all(cls):
+    def get_all_library(cls):
         """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
@@ -153,32 +154,7 @@ class Song:
         console.print(table)
 
     @classmethod
-    def get_by_id(cls, _id):
-        """Return a list containing a Song object per row in the table"""
-        sql = """
-            SELECT id, title, artist, genre
-            FROM songs
-            WHERE id = ?
-        """
-
-        rows = CURSOR.execute(sql, (_id,)).fetchall()
-
-        if not rows:
-            console.print(f"No song found with id #{_id}", style=error_style)
-        else:
-            table = Table()
-            table.add_column("ID", justify="right", style="cyan")
-            table.add_column("Title", style="magenta")
-            table.add_column("Artist", style="green")
-            table.add_column("Genre", style="yellow")
-
-            for row in rows:
-                table.add_row(str(row[0]), row[1], row[2], row[3])
-
-            console.print(table)
-
-    @classmethod
-    def get_by_title(cls, title):
+    def get_library_by_title(cls, title):
         """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
@@ -203,7 +179,7 @@ class Song:
             console.print(table)
 
     @classmethod
-    def get_by_artist(cls, artist):
+    def get_library_by_artist(cls, artist):
         """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
@@ -228,7 +204,7 @@ class Song:
             console.print(table)
 
     @classmethod
-    def get_by_genre(cls, genre):
+    def get_library_by_genre(cls, genre):
         """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
@@ -240,6 +216,31 @@ class Song:
 
         if not rows:
             console.print(f"No songs found in the {genre} genre.", style=error_style)
+        else:
+            table = Table()
+            table.add_column("ID", justify="right", style="cyan")
+            table.add_column("Title", style="magenta")
+            table.add_column("Artist", style="green")
+            table.add_column("Genre", style="yellow")
+
+            for row in rows:
+                table.add_row(str(row[0]), row[1], row[2], row[3])
+
+            console.print(table)
+
+    @classmethod
+    def get_library_by_id(cls, _id):
+        """Return a list containing a Song object per row in the table"""
+        sql = """
+            SELECT id, title, artist, genre
+            FROM songs
+            WHERE id = ?
+        """
+
+        rows = CURSOR.execute(sql, (_id,)).fetchall()
+
+        if not rows:
+            console.print(f"No song found with id #{_id}", style=error_style)
         else:
             table = Table()
             table.add_column("ID", justify="right", style="cyan")
@@ -277,7 +278,7 @@ class Song:
     # CRUD methods for Your Playlist
 
     @classmethod
-    def get_queued(cls):
+    def get_all_playlist(cls):
         """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT songs.id, songs.title, songs.artist, singers.name
@@ -348,6 +349,12 @@ class Song:
         )
 
     @classmethod
+    def song_id_exists_in_songs(song_id):
+        CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
+        count = CURSOR.fetchone()[0]
+        return count > 0
+
+    @classmethod
     def load_next_song(cls):
         """Load the next song from the queue."""
         # Check if there are any songs in the queue
@@ -370,8 +377,6 @@ class Song:
         if result:
             song_id, title, artist, lyrics, url, singer_name = result
             cls.current_song_id = song_id
-
-            import webbrowser
 
             webbrowser.open(url)
 
