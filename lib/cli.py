@@ -18,14 +18,21 @@ from helpers import (
     add_song_to_library,
     remove_song_from_library,
     exit_program,
+    song_id_exists_in_singers,
+    song_id_exists_in_songs,
 )
 
-from models.song import CONN, CURSOR
+from models.song import (
+    CONN,
+    CURSOR,
+    error_style,
+    callout_style,
+    update_style,
+)
 
 app = typer.Typer()
 console = Console()
 
-update_style = "color(6)"
 pink = "color(5)"
 
 
@@ -131,8 +138,11 @@ def add_song_command():
     while True:
         song_id = Prompt.ask("Enter song ID")
 
-        if song_id_exists_in_singers(song_id, CONN):
-            console.print("Song ID already exists. Please enter a different one.")
+        if song_id_exists_in_singers(song_id):
+            console.print(
+                "Song ID already exists. Please enter a different one.",
+                style=error_style,
+            )
         else:
             break
 
@@ -146,7 +156,7 @@ def remove_song_command():
     if confirmation:
         remove_song_from_playlist(singer_name)
     else:
-        console.print("Canceled")
+        console.print("Canceled", style=update_style)
 
 
 # Handle user input for editing Song Library
@@ -164,10 +174,12 @@ def remove_new_command():
     song_id = Prompt.ask("Enter song ID")
     confirmation = Confirm.ask(f"Confirm to remove {song_id}")
 
-    if confirmation and song_id_exists_in_songs(song_id, CONN):
+    if confirmation and song_id_exists_in_songs(song_id):
         remove_song_from_library(song_id)
     else:
-        print("Song ID doesn't exist. Please enter a different one.")
+        console.print(
+            "Song ID doesn't exist. Please enter a different one.", style=error_style
+        )
 
 
 # Handle user inputs for song library search
@@ -194,21 +206,6 @@ def library_by_genre_command():
     genre_input = Prompt.ask("Enter genre")
     genre = genre_input.title()
     view_library_by_genre(genre)
-
-
-# SQL validation
-
-
-def song_id_exists_in_singers(song_id, conn):
-    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
-    count = CURSOR.fetchone()[0]
-    return count > 0
-
-
-def song_id_exists_in_songs(song_id, conn):
-    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
-    count = CURSOR.fetchone()[0]
-    return count > 0
 
 
 if __name__ == "__main__":

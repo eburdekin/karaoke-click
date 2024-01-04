@@ -57,3 +57,18 @@ def remove_song_from_library(song_id):
 def exit_program():
     print("Goodbye!")
     exit()
+
+
+# SQL validation - move to Song/Singer models
+
+
+def song_id_exists_in_singers(song_id):
+    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
+
+
+def song_id_exists_in_songs(song_id):
+    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
