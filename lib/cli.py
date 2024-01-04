@@ -1,4 +1,4 @@
-# UI - menu formatting, user input handling
+# UI - menu formatting, user input handling and validation
 
 import typer
 from rich import box
@@ -34,8 +34,8 @@ from models.song import (
 app = typer.Typer()
 console = Console()
 
-pink = "color(5)"
-cyan = "color(6)"
+PINK = "color(5)"
+CYAN = "color(6)"
 
 
 def display_title_card():
@@ -59,7 +59,7 @@ def display_title_card():
    
 {"*" * 58}"""
     )
-    console.print("          a Python CLI project by @eburdekin", style="color(6)")
+    console.print("          a Python CLI project by @eburdekin", style=CYAN)
 
 
 # Automatically run main() upon app load
@@ -89,9 +89,9 @@ def format_menu():
     current_header = ""
     for option, description, header in options:
         if header != current_header:
-            menu_text += f"\n[{pink}]{header}[/{pink}]\n"
+            menu_text += f"\n[{PINK}]{header}[/{PINK}]\n"
             current_header = header
-        menu_text += f"[{cyan}]{option}[/{cyan}]. {description}\n"
+        menu_text += f"[{CYAN}]{option}[/{CYAN}]. {description}\n"
 
     return menu_text
 
@@ -207,7 +207,7 @@ def remove_song_from_library_command():
                 style=error_style,
             )
     else:
-        console.print(f"Canceled, song #{song_id} not removed.", style=info_style)
+        console.print(f"Canceled, song #{song_id} not removed.", style=update_style)
 
 
 # Handle user inputs for song library search

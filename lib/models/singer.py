@@ -31,10 +31,10 @@ class Singer:
 
     @name.setter
     def name(self, name):
-        if isinstance(name, str) and len(name) > 0 and name not in Singer.all:
-            self._name = name
-        else:
-            raise Exception("Name must be a unique string of at least 1 character.")
+        # if isinstance(name, str) and len(name) > 0 and name not in Singer.all:
+        self._name = name
+        # else:
+        #     raise Exception("Name must be a unique string of at least 1 character.")
 
     @property
     def song_id(self):
@@ -68,21 +68,43 @@ class Singer:
     @classmethod
     def create_singer(cls, name, song_id):
         """Instantiate a new singer, assign an ID, and insert into the database."""
-        # Check if the song_id is already associated with a singer
-        select_sql = """
-            SELECT id FROM singers WHERE song_id = ?
-        """
-        select_values = (song_id,)
-        existing_singer_ids = CURSOR.execute(select_sql, select_values).fetchall()
 
-        if existing_singer_ids:
-            console.print(f"A singer is already associated with song #{song_id}")
+        if not isinstance(name, str) or not name.strip():
+            console.print("Invalid singer name.")
             return None
 
+        name = name.title()
+
+        # Check if the song_id is already associated with a singer
+        existing_singer = cls.get_singer_by_song_id(song_id)
+
+        if existing_singer:
+            console.print(
+                f"A singer ({existing_singer.name}) is already associated with song #{song_id}"
+            )
+            return existing_singer
+
         # If not exists, create a new singer, insert into the database, and return the singer object
-        singer = cls(name.title(), song_id)
+        singer = cls(name, song_id)
         cls.insert_singer_into_db(singer, song_id)
         return singer
+
+    # """Instantiate a new singer, assign an ID, and insert into the database."""
+    # # Check if the song_id is already associated with a singer
+    # select_sql = """
+    #     SELECT id FROM singers WHERE song_id = ?
+    # """
+    # select_values = (song_id,)
+    # existing_singer_ids = CURSOR.execute(select_sql, select_values).fetchall()
+
+    # if existing_singer_ids:
+    #     console.print(f"A singer is already associated with song #{song_id}")
+    #     return None
+
+    # # If not exists, create a new singer, insert into the database, and return the singer object
+    # singer = cls(name.title(), song_id)
+    # cls.insert_singer_into_db(singer, song_id)
+    # return singer
 
     @classmethod
     def insert_singer_into_db(cls, singer, song_id):
@@ -97,19 +119,36 @@ class Singer:
     @classmethod
     def remove_singer_by_name(cls, name):
         """Remove a singer by name."""
-        singer_id = cls.get_singer_id(name)
 
-        if singer_id is not None:
+        singer = cls.get_singer_by_name(name)
+
+        if singer is not None:
             sql = "DELETE FROM singers WHERE id = ?"
-            CURSOR.execute(sql, (singer_id,))
+            CURSOR.execute(sql, (singer._id,))
             CONN.commit()
-            console.print(f"Removed {name}.", style=update_style)
-
+            console.print(f"Removed {singer.name}.", style=update_style)
         else:
-            return None
+            console.print(f"No singer found with name {name}.", style=error_style)
+
+        # """Remove a singer by name."""
+        # singer_id = cls.get_singer_id(name)
+
+        # if singer_id is not None:
+        #     sql = "DELETE FROM singers WHERE id = ?"
+        #     CURSOR.execute(sql, (singer_id,))
+        #     CONN.commit()
+        #     console.print(f"Removed {name}.", style=update_style)
+
+        # else:
+        #     return None
 
     @classmethod
     def get_singer_id(cls, name):
+        # """Get the singer based on the singer's name."""
+        # sql = "SELECT * FROM singers WHERE name = ?"
+        # result = CURSOR.execute(sql, (name,)).fetchone()
+        # return cls(*result) if result is not None else None
+
         """Get the singer_id based on the singer's name."""
         sql = "SELECT id FROM singers WHERE name = ?"
         result = CURSOR.execute(sql, (name,)).fetchone()
@@ -128,3 +167,17 @@ class Singer:
         CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
         count = CURSOR.fetchone()[0]
         return count > 0
+
+    @classmethod
+    def get_singer_by_song_id(cls, song_id):
+        """Get the singer based on the song's ID."""
+        sql = "SELECT * FROM singers WHERE song_id = ?"
+        result = CURSOR.execute(sql, (song_id,)).fetchone()
+        return cls(*result) if result is not None else None
+
+    @classmethod
+    def get_singer_by_name(cls, name):
+        """Get the singer based on the singer's name."""
+        sql = "SELECT * FROM singers WHERE name = ?"
+        result = CURSOR.execute(sql, (name,)).fetchone()
+        return cls(*result) if result is not None else None
