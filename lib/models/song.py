@@ -143,7 +143,7 @@ class Song:
 
             # Retrieve the last inserted row ID
             last_row_id = CURSOR.lastrowid
-            Song(
+            cls(
                 song["title"],
                 song["artist"],
                 song["genre"],
@@ -153,7 +153,7 @@ class Song:
             )
 
         CONN.commit()
-        console.print(Song.ALL)
+        console.print(cls.ALL)
 
     @classmethod
     def drop_table(cls):
@@ -275,7 +275,8 @@ class Song:
         CURSOR.execute(sql, values)
 
         CONN.commit()
-        Song(title, artist, genre, lyrics, url)
+        last_row_id = CURSOR.lastrowid
+        cls(title, artist, genre, lyrics, url, _id=last_row_id)
         console.print(f"{title} by {artist} added to Song Library.")
 
     @classmethod
@@ -284,6 +285,12 @@ class Song:
         sql = "DELETE FROM songs WHERE id = ?"
         CURSOR.execute(sql, (song_id,))
         CONN.commit()
+
+        # Remove the instance from the ALL list
+        removed_song = next((s for s in cls.ALL if s._id == song_id), None)
+        if removed_song:
+            cls.ALL.remove(removed_song)
+
         console.print(f"Removed song #{song_id} from Song Library.", style=update_style)
 
     # CRUD methods for Your Playlist
