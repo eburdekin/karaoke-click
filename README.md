@@ -23,6 +23,6 @@ Installation Steps
 ## Features
 
 - SQLite database to store Your Playlist and Song Library
-- CLI menu built with Typer functionality & Rich styling
-- Scrolling lyrics via Rich Live Display
-- Backup instrumentals load via YouTube using YouTube Data API v3
+- CLI menu built with `typer` functionality & `rich` styling
+- Scrolling lyrics via `rich` Live Display
+- Backup instrumentals load in your web browser
