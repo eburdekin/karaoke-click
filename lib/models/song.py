@@ -309,12 +309,16 @@ class Song:
             )
 
         if rows:
-            table = print_song_table()
+            table = Table(show_lines=True)
+            table.add_column("ID", justify="right", style="cyan", width=3)
+            table.add_column("Title", style="magenta", width=26)
+            table.add_column("Artist", style="green", width=18)
+            table.add_column("Who's Singing?", style="bold yellow", width=18)
 
             for row in rows:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
 
-            console.print(table)
+            console.print("\n", table)
 
     @classmethod
     def update_singer_id(cls, song_id, singer_id):
