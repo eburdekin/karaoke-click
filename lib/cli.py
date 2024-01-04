@@ -6,16 +6,17 @@ from rich.prompt import Prompt, IntPrompt, Confirm
 
 # Import helper functions to access Song/Singer classes
 from helpers import (
-    add_song,
-    remove_song,
+    add_song_to_playlist,
+    remove_song_from_playlist,
     load_song,
-    view_queue,
-    view_all_songs,
-    get_songs_by_title,
-    get_songs_by_artist,
-    get_songs_by_genre,
-    add_new,
-    remove_new,
+    view_all_playlist,
+    view_all_library,
+    view_library_by_id,
+    view_library_by_title,
+    view_library_by_artist,
+    view_library_by_genre,
+    add_song_to_library,
+    remove_song_from_library,
     exit_program,
 )
 
@@ -63,13 +64,14 @@ def format_menu():
         ("1", "Add song", "Your Playlist"),
         ("2", "Remove song", "Your Playlist"),
         ("3", "Load next song", "Your Playlist"),
-        ("4", "View next up", "Your Playlist"),
+        ("4", "View all", "Your Playlist"),
         ("5", "View all", "Song Library"),
-        ("6", "View by title", "Song Library"),
-        ("7", "View by artist", "Song Library"),
-        ("8", "View by genre", "Song Library"),
-        ("9", "Add new song", "Song Library"),
-        ("10", "Delete song", "Song Library"),
+        ("6", "View by id", "Song Library"),
+        ("7", "View by title", "Song Library"),
+        ("8", "View by artist", "Song Library"),
+        ("9", "View by genre", "Song Library"),
+        ("10", "Add new song", "Song Library"),
+        ("11", "Delete song", "Song Library"),
         ("0", "Exit", "Exit"),
     ]
 
@@ -97,24 +99,20 @@ def menu():
         elif choice == 3:
             load_song()
         elif choice == 4:
-            view_queue()
+            view_all_playlist()
         elif choice == 5:
-            view_all_songs()
+            view_all_library()
         elif choice == 6:
-            title_input = Prompt.ask("Enter song title")
-            title = title_input.title()
-            get_songs_by_title(title)
+            library_by_id_command()
         elif choice == 7:
-            artist_input = Prompt.ask("Enter artist name")
-            artist = artist_input.title()
-            get_songs_by_artist(artist)
+            library_by_title_command()
         elif choice == 8:
-            genre_input = Prompt.ask("Enter genre")
-            genre = genre_input.title()
-            get_songs_by_genre(genre)
+            library_by_artist_command()
         elif choice == 9:
-            add_new_command()
+            library_by_genre_command()
         elif choice == 10:
+            add_new_command()
+        elif choice == 11:
             remove_new_command()
         elif choice == 0:
             exit_program()
@@ -126,10 +124,7 @@ def menu():
             )
 
 
-def song_id_exists_in_singers(song_id, conn):
-    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
-    count = CURSOR.fetchone()[0]
-    return count > 0
+# Handle user input for editing Your Playlist
 
 
 def add_song_command():
@@ -142,17 +137,19 @@ def add_song_command():
             break
 
     singer_name = Prompt.ask("Who is singing? ")
-    add_song(song_id, singer_name)
+    add_song_to_playlist(song_id, singer_name)
 
 
 def remove_song_command():
     singer_name = Prompt.ask("Take this name off the list")
     confirmation = Confirm.ask(f"Confirm to remove {singer_name}")
     if confirmation:
-        remove_song(singer_name)
+        remove_song_from_playlist(singer_name)
     else:
         console.print("Canceled")
-    # console.print(f"{singer_name} removed from queue!", style=update_style)
+
+
+# Handle user input for editing Song Library
 
 
 def add_new_command():
@@ -160,13 +157,7 @@ def add_new_command():
     artist = Prompt.ask("Enter artist")
     genre = Prompt.ask("Enter genre")
     lyrics = Prompt.ask("Enter lyrics")
-    add_new(title, artist, genre, lyrics)
-
-
-def song_id_exists_in_songs(song_id, conn):
-    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
-    count = CURSOR.fetchone()[0]
-    return count > 0
+    add_song_to_library(title, artist, genre, lyrics)
 
 
 def remove_new_command():
@@ -174,9 +165,50 @@ def remove_new_command():
     confirmation = Confirm.ask(f"Confirm to remove {song_id}")
 
     if confirmation and song_id_exists_in_songs(song_id, CONN):
-        remove_new(song_id)
+        remove_song_from_library(song_id)
     else:
         print("Song ID doesn't exist. Please enter a different one.")
+
+
+# Handle user inputs for song library search
+
+
+def library_by_id_command():
+    _id = Prompt.ask("Enter song id")
+    view_library_by_id(_id)
+
+
+def library_by_title_command():
+    title_input = Prompt.ask("Enter song title")
+    title = title_input.title()
+    view_library_by_title(title)
+
+
+def library_by_artist_command():
+    artist_input = Prompt.ask("Enter artist name")
+    artist = artist_input.title()
+    view_library_by_artist(artist)
+
+
+def library_by_genre_command():
+    genre_input = Prompt.ask("Enter genre")
+    genre = genre_input.title()
+    view_library_by_genre(genre)
+
+
+# SQL validation
+
+
+def song_id_exists_in_singers(song_id, conn):
+    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
+
+
+def song_id_exists_in_songs(song_id, conn):
+    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
 
 
 if __name__ == "__main__":

@@ -95,6 +95,31 @@ class Song:
         console.print(table)
 
     @classmethod
+    def get_by_id(cls, _id):
+        """Return a list containing a Song object per row in the table"""
+        sql = """
+            SELECT id, title, artist, genre
+            FROM songs
+            WHERE id = ?
+        """
+
+        rows = CURSOR.execute(sql, (_id,)).fetchall()
+
+        if not rows:
+            console.print(f"No song found with id #{_id}", style=error_style)
+        else:
+            table = Table()
+            table.add_column("ID", justify="right", style="cyan")
+            table.add_column("Title", style="magenta")
+            table.add_column("Artist", style="green")
+            table.add_column("Genre", style="yellow")
+
+            for row in rows:
+                table.add_row(str(row[0]), row[1], row[2], row[3])
+
+            console.print(table)
+
+    @classmethod
     def get_by_title(cls, title):
         """Return a list containing a Song object per row in the table"""
         sql = """
@@ -105,16 +130,19 @@ class Song:
 
         rows = CURSOR.execute(sql, (title,)).fetchall()
 
-        table = Table()
-        table.add_column("ID", justify="right", style="cyan")
-        table.add_column("Title", style="magenta")
-        table.add_column("Artist", style="green")
-        table.add_column("Genre", style="yellow")
+        if not rows:
+            console.print(f"No songs found with title {title}.", style=error_style)
+        else:
+            table = Table()
+            table.add_column("ID", justify="right", style="cyan")
+            table.add_column("Title", style="magenta")
+            table.add_column("Artist", style="green")
+            table.add_column("Genre", style="yellow")
 
-        for row in rows:
-            table.add_row(str(row[0]), row[1], row[2], row[3])
+            for row in rows:
+                table.add_row(str(row[0]), row[1], row[2], row[3])
 
-        console.print(table)
+            console.print(table)
 
     @classmethod
     def get_by_artist(cls, artist):
@@ -127,16 +155,19 @@ class Song:
 
         rows = CURSOR.execute(sql, (artist,)).fetchall()
 
-        table = Table()
-        table.add_column("ID", justify="right", style="cyan")
-        table.add_column("Title", style="magenta")
-        table.add_column("Artist", style="green")
-        table.add_column("Genre", style="yellow")
+        if not rows:
+            console.print(f"No songs found by artist {artist}.", style=error_style)
+        else:
+            table = Table()
+            table.add_column("ID", justify="right", style="cyan")
+            table.add_column("Title", style="magenta")
+            table.add_column("Artist", style="green")
+            table.add_column("Genre", style="yellow")
 
-        for row in rows:
-            table.add_row(str(row[0]), row[1], row[2], row[3])
+            for row in rows:
+                table.add_row(str(row[0]), row[1], row[2], row[3])
 
-        console.print(table)
+            console.print(table)
 
     @classmethod
     def get_by_genre(cls, genre):
@@ -149,19 +180,22 @@ class Song:
 
         rows = CURSOR.execute(sql, (genre,)).fetchall()
 
-        table = Table()
-        table.add_column("ID", justify="right", style="cyan")
-        table.add_column("Title", style="magenta")
-        table.add_column("Artist", style="green")
-        table.add_column("Genre", style="yellow")
+        if not rows:
+            console.print(f"No songs found in the {genre} genre.", style=error_style)
+        else:
+            table = Table()
+            table.add_column("ID", justify="right", style="cyan")
+            table.add_column("Title", style="magenta")
+            table.add_column("Artist", style="green")
+            table.add_column("Genre", style="yellow")
 
-        for row in rows:
-            table.add_row(str(row[0]), row[1], row[2], row[3])
+            for row in rows:
+                table.add_row(str(row[0]), row[1], row[2], row[3])
 
-        console.print(table)
+            console.print(table)
 
     @classmethod
-    def add_new_song_to_library(cls, title, artist, genre, lyrics):
+    def add_to_library(cls, title, artist, genre, lyrics):
         sql = """
             INSERT INTO songs (title, artist, genre, lyrics, singer_id)
             VALUES (?, ?, ?, ?, NULL)
@@ -175,7 +209,7 @@ class Song:
         console.print(f"{title} by {artist} added to Song Library.")
 
     @classmethod
-    def remove_song_from_library(cls, song_id):
+    def remove_from_library(cls, song_id):
         """Remove a song from library by ID"""
         sql = "DELETE FROM songs WHERE id = ?"
         CURSOR.execute(sql, (song_id,))
