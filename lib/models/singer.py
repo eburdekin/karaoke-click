@@ -6,7 +6,6 @@ from .song import (
     CURSOR,
     error_style,
     callout_style,
-    update_style,
 )
 from rich.console import Console
 from rich.table import Table
@@ -136,7 +135,7 @@ class Singer:
         #     sql = "DELETE FROM singers WHERE id = ?"
         #     CURSOR.execute(sql, (singer_id,))
         #     CONN.commit()
-        #     console.print(f"Removed {name}.", style=update_style)
+        #     console.print(f"Removed {name}.", style=callout_style)
 
         # else:
         #     return None

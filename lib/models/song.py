@@ -12,7 +12,6 @@ console = Console()
 
 error_style = "color(9)"
 callout_style = "color(2)"
-update_style = "color(6)"
 
 
 def print_song_table():
@@ -273,7 +272,9 @@ class Song:
         CONN.commit()
         last_row_id = CURSOR.lastrowid
         cls(title, artist, genre, lyrics, url, _id=last_row_id)
-        console.print(f"{title} by {artist} added to Song Library.", style=update_style)
+        console.print(
+            f"{title} by {artist} added to Song Library.", style=callout_style
+        )
 
     @classmethod
     def remove_from_library(cls, song_id):
@@ -287,7 +288,9 @@ class Song:
         if removed_song:
             cls.ALL.remove(removed_song)
 
-        console.print(f"Removed song #{song_id} from Song Library.", style=update_style)
+        console.print(
+            f"Removed song #{song_id} from Song Library.", style=callout_style
+        )
 
     # CRUD methods for Your Playlist
 
@@ -335,7 +338,9 @@ class Song:
         # Clear the ALL list
         cls.ALL = []
 
-        console.print("Playlist cleared - time to start a new one!", style=update_style)
+        console.print(
+            "Playlist cleared - time to start a new one!", style=callout_style
+        )
 
     @classmethod
     def update_singer_id(cls, song_id, singer_id):
@@ -354,7 +359,7 @@ class Song:
         # Update the singer_id if it's currently NULL
         update_sql = "UPDATE songs SET singer_id = ? WHERE id = ?"
         values = (singer_id, int(song_id))
-        console.print(f"Song #{song_id} added to Your Playlist!", style=update_style)
+        console.print(f"Song #{song_id} added to Your Playlist!", style=callout_style)
         CURSOR.execute(update_sql, values)
         CONN.commit()
 
@@ -376,7 +381,7 @@ class Song:
             CURSOR.execute(sql, values)
             CONN.commit()
             console.print(
-                f"Song #{song_id} removed from Your Playlist.", style=update_style
+                f"Song #{song_id} removed from Your Playlist.", style=callout_style
             )
         else:
             console.print(f"{singer_name} hasn't signed up yet!", style=error_style)

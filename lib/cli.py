@@ -28,7 +28,6 @@ from models.song import (
     CURSOR,
     error_style,
     callout_style,
-    update_style,
 )
 
 app = typer.Typer()
@@ -59,7 +58,7 @@ def display_title_card():
    
 {"*" * 58}"""
     )
-    console.print("          a Python CLI project by @eburdekin", style=CYAN)
+    console.print("          a Python CLI project by @eburdekin", style="color(2)")
 
 
 # Automatically run main() upon app load
@@ -76,7 +75,7 @@ def format_menu():
         ("3", "Remove song", "Your Playlist"),
         ("4", "View all", "Your Playlist"),
         ("5", "Clear all", "Your Playlist"),
-        ("6", "View all songs", "Song Library"),
+        ("6", "View all", "Song Library"),
         ("7", "View by title", "Song Library"),
         ("8", "View by artist", "Song Library"),
         ("9", "View by genre", "Song Library"),
@@ -181,7 +180,7 @@ def remove_song_from_playlist_command():
     if confirmation:
         remove_song_from_playlist(singer_name)
     else:
-        console.print("Canceled", style=update_style)
+        console.print("Canceled", style=callout_style)
 
 
 # Handle user input for editing Song Library
@@ -210,7 +209,7 @@ def remove_song_from_library_command():
                 style=error_style,
             )
     else:
-        console.print(f"Canceled, song #{song_id} not removed.", style=update_style)
+        console.print(f"Canceled, song #{song_id} not removed.", style=callout_style)
 
 
 # Handle user inputs for song library search
