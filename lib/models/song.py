@@ -17,17 +17,18 @@ class Song:
     ALL = []
     current_song_id = None
 
-    def __init__(self, title, artist, genre, lyrics, singer_id=None, _id=None):
+    def __init__(self, title, artist, genre, lyrics, url, singer_id=None, _id=None):
         self._id = _id
         self.title = title
         self.artist = artist
         self.genre = genre
         self.lyrics = lyrics
+        self.url = url
         self.singer_id = singer_id
         type(self).ALL.append(self)
 
     def __repr__(self):
-        return f"<Song {self._id}: {self.title}, {self.singer_id}>"
+        return f"<Song {self._id}: {self.title}, {self.artist}>"
 
     # Property setters
 
@@ -74,6 +75,17 @@ class Song:
             self._lyrics = lyrics
         else:
             raise Exception("Lyrics must be a string of at least 1 character.")
+
+    @property
+    def url(self):
+        return self._url
+
+    @url.setter
+    def url(self, url):
+        if isinstance(url, str) and len(url) > 0:
+            self._url = url
+        else:
+            raise Exception("URL must be a string of at least 1 character.")
 
     # CRUD methods for Song Library
 
@@ -254,17 +266,17 @@ class Song:
             console.print(table)
 
     @classmethod
-    def add_to_library(cls, title, artist, genre, lyrics):
+    def add_to_library(cls, title, artist, genre, lyrics, url):
         sql = """
-            INSERT INTO songs (title, artist, genre, lyrics, singer_id)
-            VALUES (?, ?, ?, ?, NULL)
+            INSERT INTO songs (title, artist, genre, lyrics, url, singer_id)
+            VALUES (?, ?, ?, ?, ?, NULL)
         """
-
         # currently can't add multi-line lyrics
-        values = (title, artist, genre, lyrics)
+        values = (title, artist, genre, lyrics, url)
         CURSOR.execute(sql, values)
 
         CONN.commit()
+        Song(title, artist, genre, lyrics, url)
         console.print(f"{title} by {artist} added to Song Library.")
 
     @classmethod

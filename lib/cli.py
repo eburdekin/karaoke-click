@@ -105,9 +105,9 @@ def menu():
         if choice == 1:
             load_song()
         elif choice == 2:
-            add_song_command()
+            add_song_to_playlist_command()
         elif choice == 3:
-            remove_song_command()
+            remove_song_from_playlist_command()
         elif choice == 4:
             view_all_playlist()
         elif choice == 5:
@@ -121,9 +121,9 @@ def menu():
         elif choice == 9:
             library_by_id_command()
         elif choice == 10:
-            add_new_command()
+            add_song_to_library_command()
         elif choice == 11:
-            remove_new_command()
+            remove_song_from_library_command()
         elif choice == 0:
             exit_program()
             break
@@ -137,8 +137,8 @@ def menu():
 # Handle user input for editing Your Playlist
 
 
-def add_song_command():
-    song_id = Prompt.ask("Enter song ID")
+def add_song_to_playlist_command():
+    song_id = Prompt.ask("Enter song ID to add")
 
     if song_id_exists_in_singers(song_id):
         console.print(
@@ -146,11 +146,11 @@ def add_song_command():
             style=error_style,
         )
     else:
-        singer_name = Prompt.ask("Who is singing? ")
+        singer_name = Prompt.ask("Who is singing?")
         add_song_to_playlist(song_id, singer_name)
 
 
-def remove_song_command():
+def remove_song_from_playlist_command():
     singer_name = Prompt.ask("Take this name off the list")
     confirmation = Confirm.ask(f"Confirm to remove {singer_name}")
 
@@ -163,24 +163,47 @@ def remove_song_command():
 # Handle user input for editing Song Library
 
 
-def add_new_command():
-    title = Prompt.ask("Enter title")
-    artist = Prompt.ask("Enter artist")
-    genre = Prompt.ask("Enter genre")
-    lyrics = Prompt.ask("Enter lyrics")
-    add_song_to_library(title, artist, genre, lyrics)
+def validate_non_empty(value):
+    return value.strip() != "", "Input cannot be blank."
 
 
-def remove_new_command():
-    song_id = Prompt.ask("Enter song ID")
-    confirmation = Confirm.ask(f"Confirm to remove {song_id}")
+def validate_url(url):
+    return (
+        url.startswith("https://www.youtube.com/watch?v="),
+        "URL must be a YouTube video.",
+    )
+
+
+def prompt_with_validation(prompt_text, validation_function):
+    while True:
+        user_input = Prompt.ask(prompt_text)
+        is_valid, error_message = validation_function(user_input)
+        if is_valid:
+            return user_input
+        else:
+            print(error_message)
+
+
+def add_song_to_library_command():
+    title = prompt_with_validation("Enter title", validate_non_empty)
+    artist = prompt_with_validation("Enter artist", validate_non_empty)
+    genre = prompt_with_validation("Enter genre", validate_non_empty)
+    lyrics = prompt_with_validation("Enter lyrics", validate_non_empty)
+    url = prompt_with_validation("Enter URL", validate_url)
+
+    add_song_to_library(title, artist, genre, lyrics, url)
+
+
+def remove_song_from_library_command():
+    song_id = Prompt.ask("Enter song ID to delete")
+    confirmation = Confirm.ask(f"Confirm to delete song #{song_id} from Song Library")
 
     if confirmation:
         if song_id_exists_in_songs(song_id):
             remove_song_from_library(song_id)
         else:
             console.print(
-                f"Song ID {song_id} doesn't exist. Please enter a valid one.",
+                f"Song #{song_id} doesn't exist. Please enter a valid ID.",
                 style=error_style,
             )
     else:
@@ -188,11 +211,6 @@ def remove_new_command():
 
 
 # Handle user inputs for song library search
-
-
-def library_by_id_command():
-    _id = Prompt.ask("Enter song id")
-    view_library_by_id(_id)
 
 
 def library_by_title_command():
@@ -211,6 +229,11 @@ def library_by_genre_command():
     genre_input = Prompt.ask("Enter genre")
     genre = genre_input.title()
     view_library_by_genre(genre)
+
+
+def library_by_id_command():
+    _id = Prompt.ask("Enter song id")
+    view_library_by_id(_id)
 
 
 if __name__ == "__main__":

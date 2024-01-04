@@ -51,8 +51,8 @@ def view_library_by_id(_id):
     Song.get_library_by_id(_id)
 
 
-def add_song_to_library(title, artist, genre, lyrics):
-    Song.add_to_library(title, artist, genre, lyrics)
+def add_song_to_library(title, artist, genre, lyrics, url):
+    Song.add_to_library(title, artist, genre, lyrics, url)
 
 
 def remove_song_from_library(song_id):
