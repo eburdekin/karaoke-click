@@ -1,12 +1,12 @@
 # Karaoke Machine
 
-![logo](lib/img/kmlogo.png)
-
 a Python CLI project by Eileen Burdekin
 
 ## Overview
 
 Welcome to your very own CLI Karaoke Machine. Just pick a song to get started.
+
+![logo](lib/img/menu.png)
 
 ## Installation
 
