@@ -126,7 +126,6 @@ class Singer:
             sql = "DELETE FROM singers WHERE id = ?"
             CURSOR.execute(sql, (singer._id,))
             CONN.commit()
-            console.print(f"Removed {singer.name}.", style=update_style)
         else:
             console.print(f"No singer found with name {name}.", style=error_style)
 

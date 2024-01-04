@@ -10,6 +10,7 @@ from helpers import (
     remove_song_from_playlist,
     load_song,
     view_all_playlist,
+    clear_playlist,
     view_all_library,
     view_library_by_id,
     view_library_by_title,
@@ -74,13 +75,14 @@ def format_menu():
         ("2", "Add song", "Your Playlist"),
         ("3", "Remove song", "Your Playlist"),
         ("4", "View all", "Your Playlist"),
-        ("5", "View all", "Song Library"),
-        ("6", "View by title", "Song Library"),
-        ("7", "View by artist", "Song Library"),
-        ("8", "View by genre", "Song Library"),
-        ("9", "View by id", "Song Library"),
-        ("10", "Add new song", "Song Library"),
-        ("11", "Delete song", "Song Library"),
+        ("5", "Clear all", "Your Playlist"),
+        ("6", "View all songs", "Song Library"),
+        ("7", "View by title", "Song Library"),
+        ("8", "View by artist", "Song Library"),
+        ("9", "View by genre", "Song Library"),
+        ("10", "View by id", "Song Library"),
+        ("11", "Add new song", "Song Library"),
+        ("12", "Delete song", "Song Library"),
     ]
 
     menu_text = ""
@@ -110,18 +112,20 @@ def menu():
         elif choice == 4:
             view_all_playlist()
         elif choice == 5:
-            view_all_library()
+            clear_playlist()
         elif choice == 6:
-            library_by_title_command()
+            view_all_library()
         elif choice == 7:
-            library_by_artist_command()
+            library_by_title_command()
         elif choice == 8:
-            library_by_genre_command()
+            library_by_artist_command()
         elif choice == 9:
-            library_by_id_command()
+            library_by_genre_command()
         elif choice == 10:
-            add_song_to_library_command()
+            library_by_id_command()
         elif choice == 11:
+            add_song_to_library_command()
+        elif choice == 12:
             remove_song_from_library_command()
         elif choice == 0:
             exit_program()

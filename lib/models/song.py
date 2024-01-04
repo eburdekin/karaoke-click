@@ -273,7 +273,7 @@ class Song:
         CONN.commit()
         last_row_id = CURSOR.lastrowid
         cls(title, artist, genre, lyrics, url, _id=last_row_id)
-        console.print(f"{title} by {artist} added to Song Library.")
+        console.print(f"{title} by {artist} added to Song Library.", style=update_style)
 
     @classmethod
     def remove_from_library(cls, song_id):
@@ -319,6 +319,23 @@ class Song:
                 table.add_row(str(row[0]), row[1], row[2], row[3])
 
             console.print("\n", table)
+
+    @classmethod
+    def clear_playlist(cls):
+        # Define the SQL query to delete all songs from the playlist
+        sql = """
+            DELETE FROM songs
+            WHERE singer_id IS NOT NULL
+        """
+
+        # Execute the SQL query
+        CURSOR.execute(sql)
+        CONN.commit()
+
+        # Clear the ALL list
+        cls.ALL = []
+
+        console.print("Playlist cleared - time to start a new one!", style=update_style)
 
     @classmethod
     def update_singer_id(cls, song_id, singer_id):

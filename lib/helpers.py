@@ -28,6 +28,10 @@ def view_all_playlist():
     Song.get_all_playlist()
 
 
+def clear_playlist():
+    Song.clear_playlist()
+
+
 # Song Library
 
 
