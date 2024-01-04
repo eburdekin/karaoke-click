@@ -1,3 +1,5 @@
+# Helper functions for cli.py, accessing Song/Singer classes
+
 from models.song import Song
 from models.singer import Singer
 from data.song_library import song_library

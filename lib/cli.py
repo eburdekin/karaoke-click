@@ -1,8 +1,10 @@
+# UI - menu formatting, user input handling
+
 import typer
 from rich.console import Console
 from rich.prompt import Prompt, IntPrompt, Confirm
 
-
+# Import helper functions to access Song/Singer classes
 from helpers import (
     add_song,
     remove_song,
