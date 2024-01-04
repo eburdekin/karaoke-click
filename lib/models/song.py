@@ -324,19 +324,36 @@ class Song:
             console.print("\n", table)
 
     @classmethod
+    def remove_all_singer_ids(cls):
+        for song_instance in cls.ALL:
+            song_instance.singer_id = None
+
+    @classmethod
     def clear_playlist(cls):
         # Define the SQL query to delete all songs from the playlist
-        sql = """
-            DELETE FROM songs
+        update_songs_sql = """
+            UPDATE songs
+            SET singer_id = NULL
             WHERE singer_id IS NOT NULL
         """
 
-        # Execute the SQL query
-        CURSOR.execute(sql)
+        # Execute the SQL query to update the songs table
+        CURSOR.execute(update_songs_sql)
+
+        # Define the SQL query to delete all records from the singers table
+        delete_singers_sql = """
+            DELETE FROM singers
+        """
+
+        # Execute the SQL query to delete records from the singers table
+        CURSOR.execute(delete_singers_sql)
         CONN.commit()
 
         # Clear the ALL list
         cls.ALL = []
+
+        # need to also remove singer_ids from Song
+        cls.remove_all_singer_ids()
 
         console.print(
             "Playlist cleared - time to start a new one!", style=callout_style
