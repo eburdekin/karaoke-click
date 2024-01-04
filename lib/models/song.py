@@ -329,24 +329,27 @@ class Song:
         CONN.commit()
 
     @classmethod
-    def get_song_id(cls, singer_id):
+    def get_song_id_from_singer_id(cls, singer_id):
         """Get the song's ID based on the singer's ID"""
         sql = "SELECT id FROM songs WHERE singer_id = ?"
         result = CURSOR.execute(sql, (singer_id,)).fetchone()
         return result[0] if result is not None else None
 
     @classmethod
-    def remove_singer_id(cls, song_id):
-        """Set singer_id back to NULL for song based on song_id."""
-        sql = "UPDATE songs SET singer_id = NULL WHERE id = ?"
-        # needs to pass a tuple
-        values = (int(song_id),)
+    def remove_singer_id(cls, song_id, singer_name):
+        if song_id:
+            """Set singer_id back to NULL for song based on song_id."""
+            sql = "UPDATE songs SET singer_id = NULL WHERE id = ?"
+            # needs to pass a tuple
+            values = (int(song_id),)
 
-        CURSOR.execute(sql, values)
-        CONN.commit()
-        console.print(
-            f"Song #{song_id} removed from Your Playlist.", style=update_style
-        )
+            CURSOR.execute(sql, values)
+            CONN.commit()
+            console.print(
+                f"Song #{song_id} removed from Your Playlist.", style=update_style
+            )
+        else:
+            console.print(f"{singer_name} hasn't signed up yet!", style=error_style)
 
     @classmethod
     def song_id_exists_in_songs(song_id):

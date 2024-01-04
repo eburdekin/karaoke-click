@@ -78,7 +78,7 @@ class Singer:
             return None
 
         # If not exists, create a new singer, insert into the database, and return the singer object
-        singer = cls(name, song_id)
+        singer = cls(name.title(), song_id)
         cls.insert_singer_into_db(singer, song_id)
         return singer
 
@@ -104,7 +104,6 @@ class Singer:
             console.print(f"Removed {name}.", style=update_style)
 
         else:
-            console.print(f"No singer found with the name: {name}", style=error_style)
             return None
 
     @classmethod

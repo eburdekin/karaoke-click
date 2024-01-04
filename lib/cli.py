@@ -19,6 +19,8 @@ from helpers import (
     add_song_to_library,
     remove_song_from_library,
     exit_program,
+    song_id_exists_in_singers,
+    song_id_exists_in_songs,
 )
 
 from models.song import (
@@ -138,7 +140,7 @@ def menu():
 def add_song_command():
     song_id = Prompt.ask("Enter song ID")
 
-    if Singer.song_id_exists_in_singers(song_id):
+    if song_id_exists_in_singers(song_id):
         console.print(
             "Song ID already exists. Please enter a different one.",
             style=error_style,
@@ -174,7 +176,7 @@ def remove_new_command():
     confirmation = Confirm.ask(f"Confirm to remove {song_id}")
 
     if confirmation:
-        if Song.song_id_exists_in_songs(song_id):
+        if song_id_exists_in_songs(song_id):
             remove_song_from_library(song_id)
         else:
             console.print(

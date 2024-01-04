@@ -1,6 +1,6 @@
 # Helper functions for cli.py, accessing Song/Singer classes
 
-from models.song import Song
+from models.song import Song, CONN, CURSOR
 from models.singer import Singer
 from data.song_library import song_library
 
@@ -15,8 +15,8 @@ def add_song_to_playlist(song_id, singer_name):
 
 def remove_song_from_playlist(singer_name):
     singer_id = Singer.get_singer_id(singer_name)
-    song_id = Song.get_song_id(singer_id)
-    Song.remove_singer_id(song_id)
+    song_id = Song.get_song_id_from_singer_id(singer_id)
+    Song.remove_singer_id(song_id, singer_name)
     Singer.remove_singer_by_name(singer_name)
 
 
@@ -65,3 +65,18 @@ def remove_song_from_library(song_id):
 def exit_program():
     print("Goodbye!")
     exit()
+
+
+# SQL validation - move to Song/Singer models
+
+
+def song_id_exists_in_singers(song_id):
+    CURSOR.execute("SELECT COUNT(*) FROM singers WHERE song_id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
+
+
+def song_id_exists_in_songs(song_id):
+    CURSOR.execute("SELECT COUNT(*) FROM songs WHERE id = ?", (song_id,))
+    count = CURSOR.fetchone()[0]
+    return count > 0
