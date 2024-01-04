@@ -2,12 +2,12 @@ from .song import (
     Song,
     CONN,
     CURSOR,
-    Console,
-    Table,
     error_style,
     callout_style,
     update_style,
 )
+from rich.console import Console
+from rich.table import Table
 
 console = Console()
 
@@ -15,9 +15,13 @@ console = Console()
 class Singer:
     all = {}
 
-    def __init__(self, name, id=None):
-        self.id = id
+    def __init__(self, name, song_id, _id=None):
+        self._id = _id
         self.name = name
+        self.song_id = song_id
+
+    def __repr__(self):
+        return f"<Song {self._id}: {self.name}>"
 
     @property
     def name(self):
@@ -28,7 +32,24 @@ class Singer:
         if isinstance(name, str) and len(name) > 0 and name not in Singer.all:
             self._name = name
         else:
-            raise Exception("unique name, string of at least 1 char")
+            raise Exception("Name must be a unique string of at least 1 character.")
+
+    @property
+    def song_id(self):
+        return self._song_id
+
+    @song_id.setter
+    def song_id(self, song_id):
+        self._song_id = song_id
+        # song_id = int(song_id)  # Convert song_id to integer for comparison
+        # console.print(Song.ALL)
+        # for song in Song.all:
+        #     print(f"Type of song._id: {type(song._id)}, Value: {song._id}")
+        #     print(f"Type of song_id: {type(song_id)}, Value: {song_id}")
+        #     if song._id == song_id:
+        #         self._song_id = song_id
+        #         return
+        # raise Exception(f"No song with ID #{song_id} in Song Library.")
 
     @classmethod
     def create_table(cls):
@@ -57,7 +78,7 @@ class Singer:
             return None
 
         # If not exists, create a new singer, insert into the database, and return the singer object
-        singer = cls(name)
+        singer = cls(name, song_id)
         cls.insert_singer_into_db(singer, song_id)
         return singer
 
@@ -81,8 +102,6 @@ class Singer:
             CURSOR.execute(sql, (singer_id,))
             CONN.commit()
             console.print(f"Removed {name}.", style=update_style)
-            deleted_singer = cls(name, id=singer_id)
-            return deleted_singer
 
         else:
             console.print(f"No singer found with the name: {name}", style=error_style)

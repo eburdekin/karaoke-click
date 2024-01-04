@@ -1,8 +1,10 @@
 # Helper functions for cli.py, accessing Song/Singer classes
 
-from models.song import Song
+from models.song import Song, CONN, CURSOR
 from models.singer import Singer
 from data.song_library import song_library
+
+# Your Playlist
 
 
 def add_song_to_playlist(song_id, singer_name):
@@ -24,6 +26,9 @@ def load_song():
 
 def view_all_playlist():
     Song.get_queued()
+
+
+# Song Library
 
 
 def view_all_library():
@@ -52,6 +57,9 @@ def add_song_to_library(title, artist, genre, lyrics):
 
 def remove_song_from_library(song_id):
     Song.remove_from_library(song_id)
+
+
+# Exit
 
 
 def exit_program():

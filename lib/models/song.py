@@ -13,20 +13,66 @@ update_style = "color(6)"
 
 
 class Song:
-    all = {}
+    ALL = []
     current_song_id = None
 
-    def __init__(self, title, artist, genre, lyrics, singer_id=None, id=None):
-        self.id = id
+    def __init__(self, title, artist, genre, lyrics, singer_id=None, _id=None):
+        self._id = _id
         self.title = title
         self.artist = artist
         self.genre = genre
         self.lyrics = lyrics
         self.singer_id = singer_id
-        type(self).all.append(self)
+        type(self).ALL.append(self)
 
     def __repr__(self):
-        return f"<Song {self.id}: {self.title}, {self.singer}>"
+        return f"<Song {self._id}: {self.title}, {self.singer_id}>"
+
+    # Property setters
+
+    @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        if isinstance(title, str) and len(title) > 0:
+            self._title = title
+        else:
+            raise Exception("Title must be a string of at least 1 character.")
+
+    @property
+    def artist(self):
+        return self._artist
+
+    @artist.setter
+    def artist(self, artist):
+        if isinstance(artist, str) and len(artist) > 0:
+            self._artist = artist
+        else:
+            raise Exception("Artist must be a string of at least 1 character.")
+
+    @property
+    def genre(self):
+        return self._genre
+
+    @genre.setter
+    def genre(self, genre):
+        if isinstance(genre, str) and len(genre) > 0:
+            self._genre = genre
+        else:
+            raise Exception("Genre must be a string of at least 1 character.")
+
+    @property
+    def lyrics(self):
+        return self._lyrics
+
+    @lyrics.setter
+    def lyrics(self, lyrics):
+        if isinstance(lyrics, str) and len(lyrics) > 0:
+            self._lyrics = lyrics
+        else:
+            raise Exception("Lyrics must be a string of at least 1 character.")
 
     # CRUD methods for Song Library
 
@@ -63,7 +109,19 @@ class Song:
             )
             CURSOR.execute(sql, values)
 
+            # Retrieve the last inserted row ID
+            last_row_id = CURSOR.lastrowid
+            Song(
+                song["title"],
+                song["artist"],
+                song["genre"],
+                song["lyrics"],
+                song["url"],
+                _id=last_row_id,
+            )
+
         CONN.commit()
+        console.print(Song.ALL)
 
     @classmethod
     def drop_table(cls):

@@ -1,6 +1,7 @@
 # UI - menu formatting, user input handling
 
 import typer
+from rich import box
 from rich.console import Console
 from rich.prompt import Prompt, IntPrompt, Confirm
 
@@ -34,6 +35,7 @@ app = typer.Typer()
 console = Console()
 
 pink = "color(5)"
+cyan = "color(6)"
 
 
 def display_title_card():
@@ -60,6 +62,7 @@ def display_title_card():
     console.print("          a Python CLI project by @eburdekin", style="color(6)")
 
 
+# Automatically run main() upon app load
 @app.callback(invoke_without_command=True)
 def main():
     display_title_card()
@@ -68,15 +71,15 @@ def main():
 
 def format_menu():
     options = [
-        ("1", "Add song", "Your Playlist"),
-        ("2", "Remove song", "Your Playlist"),
-        ("3", "Load next song", "Your Playlist"),
+        ("1", "Load next song", "Your Playlist"),
+        ("2", "Add song", "Your Playlist"),
+        ("3", "Remove song", "Your Playlist"),
         ("4", "View all", "Your Playlist"),
         ("5", "View all", "Song Library"),
-        ("6", "View by id", "Song Library"),
-        ("7", "View by title", "Song Library"),
-        ("8", "View by artist", "Song Library"),
-        ("9", "View by genre", "Song Library"),
+        ("6", "View by title", "Song Library"),
+        ("7", "View by artist", "Song Library"),
+        ("8", "View by genre", "Song Library"),
+        ("9", "View by id", "Song Library"),
         ("10", "Add new song", "Song Library"),
         ("11", "Delete song", "Song Library"),
         ("0", "Exit", "Exit"),
@@ -86,9 +89,9 @@ def format_menu():
     current_header = ""
     for option, description, header in options:
         if header != current_header:
-            menu_text += f"\n[color(5)]{header}[/color(5)]\n"
+            menu_text += f"\n[{pink}]{header}[/{pink}]\n"
             current_header = header
-        menu_text += f"[bold color(6)]{option}[/bold color(6)]. {description}\n"
+        menu_text += f"[{cyan}]{option}[/{cyan}]. {description}\n"
 
     return menu_text
 
@@ -100,23 +103,23 @@ def menu():
 
         choice = IntPrompt.ask("What'll it be?")
         if choice == 1:
-            add_song_command()
-        elif choice == 2:
-            remove_song_command()
-        elif choice == 3:
             load_song()
+        elif choice == 2:
+            add_song_command()
+        elif choice == 3:
+            remove_song_command()
         elif choice == 4:
             view_all_playlist()
         elif choice == 5:
             view_all_library()
         elif choice == 6:
-            library_by_id_command()
-        elif choice == 7:
             library_by_title_command()
-        elif choice == 8:
+        elif choice == 7:
             library_by_artist_command()
-        elif choice == 9:
+        elif choice == 8:
             library_by_genre_command()
+        elif choice == 9:
+            library_by_id_command()
         elif choice == 10:
             add_new_command()
         elif choice == 11:
@@ -135,24 +138,22 @@ def menu():
 
 
 def add_song_command():
-    while True:
-        song_id = Prompt.ask("Enter song ID")
+    song_id = Prompt.ask("Enter song ID")
 
-        if song_id_exists_in_singers(song_id):
-            console.print(
-                "Song ID already exists. Please enter a different one.",
-                style=error_style,
-            )
-        else:
-            break
-
-    singer_name = Prompt.ask("Who is singing? ")
-    add_song_to_playlist(song_id, singer_name)
+    if song_id_exists_in_singers(song_id):
+        console.print(
+            "Song ID already exists. Please enter a different one.",
+            style=error_style,
+        )
+    else:
+        singer_name = Prompt.ask("Who is singing? ")
+        add_song_to_playlist(song_id, singer_name)
 
 
 def remove_song_command():
     singer_name = Prompt.ask("Take this name off the list")
     confirmation = Confirm.ask(f"Confirm to remove {singer_name}")
+
     if confirmation:
         remove_song_from_playlist(singer_name)
     else:
@@ -174,12 +175,16 @@ def remove_new_command():
     song_id = Prompt.ask("Enter song ID")
     confirmation = Confirm.ask(f"Confirm to remove {song_id}")
 
-    if confirmation and song_id_exists_in_songs(song_id):
-        remove_song_from_library(song_id)
+    if confirmation:
+        if song_id_exists_in_songs(song_id):
+            remove_song_from_library(song_id)
+        else:
+            console.print(
+                f"Song ID {song_id} doesn't exist. Please enter a valid one.",
+                style=error_style,
+            )
     else:
-        console.print(
-            "Song ID doesn't exist. Please enter a different one.", style=error_style
-        )
+        console.print(f"Canceled, song #{song_id} not removed.", style=info_style)
 
 
 # Handle user inputs for song library search
