@@ -1,5 +1,7 @@
 # Karaoke Machine
 
+![logo](lib/img/logo.png)
+
 a Python CLI project by Eileen Burdekin
 
 ## Overview
