@@ -1,7 +1,6 @@
 # UI - menu formatting, user input handling and validation
 
 import typer
-from rich import box
 from rich.console import Console
 from rich.prompt import Prompt, IntPrompt, Confirm
 
@@ -82,7 +81,6 @@ def format_menu():
         ("9", "View by id", "Song Library"),
         ("10", "Add new song", "Song Library"),
         ("11", "Delete song", "Song Library"),
-        ("0", "Exit", "Exit"),
     ]
 
     menu_text = ""
@@ -100,6 +98,7 @@ def format_menu():
 def menu():
     while True:
         console.print(format_menu())
+        console.print(f"[bold {CYAN}]0[/bold {CYAN}]. [{PINK}]Exit[/{PINK}]\n")
 
         choice = IntPrompt.ask("What'll it be?")
         if choice == 1:
@@ -155,7 +154,7 @@ def prompt_with_validation(prompt_text, validation_function):
         if is_valid:
             return user_input
         else:
-            print(error_message)
+            console.print(error_message, style=error_style)
 
 
 def add_song_to_playlist_command():

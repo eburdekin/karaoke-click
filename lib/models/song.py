@@ -182,7 +182,6 @@ class Song:
 
     @classmethod
     def get_library_by_title(cls, title):
-        """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
             FROM songs
@@ -203,7 +202,6 @@ class Song:
 
     @classmethod
     def get_library_by_artist(cls, artist):
-        """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
             FROM songs
@@ -224,7 +222,6 @@ class Song:
 
     @classmethod
     def get_library_by_genre(cls, genre):
-        """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
             FROM songs
@@ -245,7 +242,6 @@ class Song:
 
     @classmethod
     def get_library_by_id(cls, _id):
-        """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT id, title, artist, genre
             FROM songs
@@ -297,7 +293,6 @@ class Song:
 
     @classmethod
     def get_all_playlist(cls):
-        """Return a list containing a Song object per row in the table"""
         sql = """
             SELECT songs.id, songs.title, songs.artist, singers.name
             FROM songs
