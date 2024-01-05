@@ -346,4 +346,21 @@ Light of the love that I found
         """,
         "url": "https://www.youtube.com/watch?v=qcoIehRUH24",
     },
+    {
+        "title": "Demo",
+        "artist": "Demo",
+        "genre": "Demo",
+        "lyrics": """Are You Happy Now? - Michelle Branch*Intro*
+Now, don’t just walk away
+Pretending everything’s ok
+And you don’t care about me*Break*And I know there’s just no use
+When all your lies become your truths
+and I don’t care...
+Yeah, yeah, yeah*Could you look me in the eye and tell me that you’re happy now
+Oohhh, oohhh
+Would you tell it to my face or have I been erased,
+Are you happy now?
+Are you happy now?""",
+        "url": "https://www.youtube.com/watch?v=egJ02IOJ9e8",
+    },
 ]

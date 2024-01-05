@@ -6,6 +6,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.live import Live
 from rich.align import Align
+from rich.padding import Padding
 import webbrowser
 import time
 
@@ -454,15 +455,18 @@ class Song:
                     while not exit_live:
                         for i in range(len(lines)):
                             highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
-                            display_text = Align.center(
-                                "\n".join(
-                                    lines[j] if j != i else highlighted_line
-                                    for j in range(len(lines))
-                                )
+                            display_text = Padding(
+                                Align.center(
+                                    "\n".join(
+                                        lines[j] if j != i else highlighted_line
+                                        for j in range(len(lines))
+                                    )
+                                ),
+                                10,
                             )
                             live.update(display_text)
 
-                            time.sleep(2)
+                            time.sleep(5)
 
                         exit_live = True
 
