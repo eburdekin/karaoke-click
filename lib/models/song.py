@@ -466,5 +466,5 @@ class Song:
 
                         exit_live = True
 
-            # Need to run remove_singer_id on this Song instance
-            # cls.remove_singer_id(song_id, singer_name)
+            return singer_name
+        return None
