@@ -438,7 +438,7 @@ class Song:
 
             verses = lyrics.split("*")
 
-            with Live(transient=True, screen=True, console=console) as live:
+            with Live(transient=True, screen=True) as live:
                 live.update(
                     f"Loading next song: {title} by {artist}, Sung by: {singer_name}"
                 )
