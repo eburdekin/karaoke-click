@@ -196,7 +196,7 @@ Well, hey hey hey
     {
         "title": "Angel",
         "artist": "Shaggy",
-        "genre": "Pop Reggae",
+        "genre": "Pop",
         "lyrics": """
 Angel - Shaggy*Intro*Intro*Girl, you're my angel, you're my darling angel
 Closer than my peeps you are to me, baby
