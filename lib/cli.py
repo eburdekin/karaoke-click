@@ -143,6 +143,15 @@ def validate_non_empty(value):
     return value.strip() != "", "Input cannot be blank."
 
 
+def validate_int(value):
+    """Validates that the input is a non-empty integer."""
+    try:
+        int_value = int(value)
+        return int_value, ""  # No error message if conversion is successful
+    except ValueError:
+        return False, "Input must be a valid integer."
+
+
 def validate_url(url):
     return (
         url.startswith("https://www.youtube.com/watch?v="),
@@ -161,7 +170,7 @@ def prompt_with_validation(prompt_text, validation_function):
 
 
 def add_song_to_playlist_command():
-    song_id = prompt_with_validation("Enter song ID to add", validate_non_empty)
+    song_id = prompt_with_validation("Enter song ID to add", validate_int)
 
     if song_id_exists_in_singers(song_id):
         console.print(
