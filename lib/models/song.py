@@ -5,6 +5,7 @@ from data.song_library import song_library
 from rich.console import Console
 from rich.table import Table
 from rich.live import Live
+from rich.align import Align
 import webbrowser
 import time
 
@@ -446,7 +447,6 @@ class Song:
                 i = 0
 
                 for verse in verses:
-                    time.sleep(2)
                     live.update(verse)
                     lines = verse.splitlines()
                     exit_live = False
@@ -454,12 +454,17 @@ class Song:
                     while not exit_live:
                         for i in range(len(lines)):
                             highlighted_line = f"[bold yellow]{lines[i]}[/bold yellow]"
-                            display_text = "\n".join(
-                                lines[j] if j != i else highlighted_line
-                                for j in range(len(lines))
+                            display_text = Align.center(
+                                "\n".join(
+                                    lines[j] if j != i else highlighted_line
+                                    for j in range(len(lines))
+                                )
                             )
                             live.update(display_text)
 
                             time.sleep(2)
 
                         exit_live = True
+
+            # Need to run remove_singer_id on this Song instance
+            cls.remove_singer_id(song_id, singer_name)
