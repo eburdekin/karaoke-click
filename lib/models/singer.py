@@ -88,6 +88,16 @@ class Singer:
         cls.insert_singer_into_db(singer, song_id)
         return singer
 
+    # @classmethod
+    # def insert_singer_into_db(cls, singer, song_id):
+    #     # Insert the singer data into the database
+    #     insert_sql = """
+    #         INSERT INTO singers (name, song_id) VALUES (?, ?)
+    #     """
+    #     insert_values = (singer.name, song_id)
+    #     CURSOR.execute(insert_sql, insert_values)
+    #     CONN.commit()
+
     @classmethod
     def insert_singer_into_db(cls, singer, song_id):
         # Insert the singer data into the database
@@ -98,6 +108,13 @@ class Singer:
         CURSOR.execute(insert_sql, insert_values)
         CONN.commit()
 
+        # Retrieve the newly generated ID from the database
+        CURSOR.execute("SELECT last_insert_rowid()")  # Get the last inserted ID
+        new_id = CURSOR.fetchone()[0]
+
+        # Assign the new ID to the singer instance
+        singer._id = new_id
+
     @classmethod
     def remove_singer_by_name(cls, name):
         """Remove a singer by name."""
@@ -107,6 +124,7 @@ class Singer:
             sql = "DELETE FROM singers WHERE id = ?"
             CURSOR.execute(sql, (singer._id,))
             CONN.commit()
+
         else:
             console.print(f"No singer found with name {name}.", style=error_style)
 
