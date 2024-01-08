@@ -21,7 +21,8 @@ def remove_song_from_playlist(singer_name):
 
 
 def load_song():
-    Song.load_next_song()
+    current_singer = Song.load_next_song()
+    remove_song_from_playlist(current_singer)
 
 
 def view_all_playlist():

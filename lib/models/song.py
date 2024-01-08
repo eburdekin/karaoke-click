@@ -471,4 +471,5 @@ class Song:
                         exit_live = True
 
             return singer_name
+
         return None
